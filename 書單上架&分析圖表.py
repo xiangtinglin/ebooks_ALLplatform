@@ -33,7 +33,7 @@ if user_input:
                                      usecols=[0,2,3,8,17,19,23,25,29,31,36,38,42,44,48,50,54,56,60,62,66,68,72,74,78,80,84,86,90,92,96,98],  #@指定欄位
                                      # nrows=10,                      #@指定列數
                                      # header = 3,                      #header = ?  >> 指定第?列為header(index)
-                                     engine='xlrd')
+                                     engine='openpyxl')
                 return data
         
             # Call the function with the uploaded file
