@@ -73,12 +73,10 @@ if user_input:
         
             # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
             import matplotlib.pyplot as plt
-            import matplotlib.font_manager as fm
             import streamlit as st
-            # 设置中文字体URL
-            font_url = "https://example.com/path/to/noto-cjk/NotoSansCJKsc-Regular.otf"
-            # 指定字体
-            fontprop = fm.FontProperties(url=font_url, size=14)
+            
+            # 使用默认中文字体
+            plt.rcParams['font.sans-serif'] = ['SimHei']
         
             import matplotlib.pyplot as plt
             fig, ax = plt.subplots(figsize=(1, 1))
