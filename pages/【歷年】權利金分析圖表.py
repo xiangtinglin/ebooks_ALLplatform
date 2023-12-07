@@ -84,7 +84,7 @@ if user_input:
             
             # explode = (0.05, 0.05)
             # colors = ['pink', 'steelblue']
-            result.groupby(['銷售單位']).apply(lambda x:x[x.columns]).plot(kind='pie')
+            result.groupby(['銷售單位']).apply(lambda x: x[x.columns]).plot(kind='pie')
 
             plt.title('【B2C經銷平台】銷售情況',color='r',size=18)
             # plt.xlabel("(統計至2023/10/17止)",color='gray',size=10)
