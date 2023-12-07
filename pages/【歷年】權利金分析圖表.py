@@ -75,10 +75,8 @@ if user_input:
         
             '''**開始繪圖(請耐心等候....但其實很快^^ XD)'''
             #繪圖_顯示特殊字形
-            from pylab import mpl
-            mpl.rcParams['font.sans-serif'] = ['Microsoft YaHei']  
-            # 指定默認字形：解決plot不能顯示中文問題
-            mpl.rcParams['axes.unicode_minus'] = False
+            import matplotlib.pyplot as plt
+            plt.rcParams["font.family"] = 'Arial Unicode MS'
         
             import matplotlib.pyplot as plt
             fig, ax = plt.subplots(figsize=(1, 1))
