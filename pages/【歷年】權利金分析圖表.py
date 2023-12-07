@@ -93,6 +93,7 @@ if user_input:
                     # autopct=lambda i: func(i,x),
                     wedgeprops={'linewidth':3,'edgecolor':'w'})   # 繪製每個扇形的外框
             plt.show()
+            st.pyplot(plt.gcf())
         else:
             st.warning("請上傳 Excel 文件。")
     else:
