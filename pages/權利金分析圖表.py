@@ -1,6 +1,15 @@
 import streamlit as st
-passwords = ["8927","8968","6045","6197","6230"]  # 替換成您想要的密碼
-names = ["Amber", "Maggie", "Grace", "湘婷", "Iris"]
+#設定密碼
+passwords_and_names = {
+    "": "啟宏",
+    "": "禮澤",
+    "": "林芝",
+    "8927": "Amber虹儀",
+    "8968": "Maggie玫君",
+    "6045": "Grace芷瑄",
+    "6197": "Ersha湘婷",
+    "6230": "Iris沛晴"
+}
 #標題 
 st.title("權利金銷售情況")
 # 在首頁輸入密碼
