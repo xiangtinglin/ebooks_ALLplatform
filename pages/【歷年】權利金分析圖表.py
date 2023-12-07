@@ -80,8 +80,7 @@ if user_input:
             
             # 绘制饼图
             fig = px.pie(x, values='權利金', names='銷售地區', title='Sales Distribution by Region', 
-                         text='權利金', 
-                         hover_data=['權利金'])
+                         text='權利金')
             # 在 Streamlit 中显示 Plotly 图表
             st.plotly_chart(fig)
         else:
