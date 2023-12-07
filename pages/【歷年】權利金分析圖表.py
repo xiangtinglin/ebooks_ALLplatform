@@ -80,16 +80,11 @@ if user_input:
             # 指定默認字形：解決plot不能顯示中文問題
             mpl.rcParams['axes.unicode_minus'] = False
         
-            import matplotlib.pyplot as plt
-            
-            # explode = (0.05, 0.05)
-            # colors = ['pink', 'steelblue']
-            result.groupby(['銷售單位']).apply(lambda x: x[x.columns]).plot(kind='pie')
+            import plotly.express as px
+            fig = px.histogram(result, x='季', y='權利金', histfunc='sum', height=300,
+                                title='Histogram Chart')
+            fig.show()
 
-            plt.title('【B2C經銷平台】銷售情況',color='r',size=18)
-            # plt.xlabel("(統計至2023/10/17止)",color='gray',size=10)
-            # plt.ylabel("佔比(%)",color='blue')
-            plt.legend(loc='lower right')
             st.pyplot()
         else:
             st.warning("請上傳 Excel 文件。")
