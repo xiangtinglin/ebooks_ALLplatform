@@ -81,7 +81,7 @@ if user_input:
             mpl.rcParams['axes.unicode_minus'] = False
         
             import matplotlib.pyplot as plt
-            
+            fig, ax = plt.subplots(figsize=(6, 6))
             x = result.groupby(by=['季'])['權利金'].sum()
 
             plt.pie(x,
