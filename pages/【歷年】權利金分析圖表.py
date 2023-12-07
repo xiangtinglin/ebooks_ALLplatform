@@ -81,7 +81,6 @@ if user_input:
             # 绘制带有数值的饼图
             fig = px.pie(x, values='權利金', names='銷售地區', title='Sales Distribution by Region', 
                          hover_data=['權利金'],
-                         textinfo='percent+label'
                          )
             
             # 在 Streamlit 中显示 Plotly 图表
