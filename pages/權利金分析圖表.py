@@ -1,5 +1,6 @@
 import streamlit as st
-password = ["1234","6197","5354"]  # 替換成您想要的密碼
+password = ["8927","8968","6045","6197","6230"]  # 替換成您想要的密碼
+names = ["Amber", "Maggie", "Grace", "湘婷", "Iris"]
 #標題 
 st.title("權利金銷售情況")
 # 在首頁輸入密碼
@@ -8,7 +9,8 @@ user_input = st.text_input("請輸入密碼:", type="password")
 if user_input:    
     # 驗證密碼
     if user_input in password:
-        st.success("密碼正確，已解鎖應用程序！") 
+        user_name = names[passwords.index(user_input)]
+        st.success(f"歡迎, {user_name}！密碼正確，已解鎖應用程序！")
         # 在這裡放置您的應用程序主要內容
         #前端介面輸入框
         '''僅第一次載入大量數據需要數秒，之後查詢會很快^^'''
