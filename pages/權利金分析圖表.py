@@ -8,7 +8,10 @@ passwords_and_names = {
     "8968": "Maggie玫君",
     "6045": "Grace芷瑄",
     "6197": "Ersha湘婷",
-    "6230": "Iris沛晴"
+    "6230": "Iris沛晴",
+    "8997": "Sinyi昕怡",
+    "8156": "Wanju婉汝",
+    "8837": "Grace洺瑱"
 }
 #標題 
 st.title("權利金銷售情況")
