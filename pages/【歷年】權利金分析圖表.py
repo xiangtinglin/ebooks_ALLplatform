@@ -72,10 +72,13 @@ if user_input:
             # result.to_excel(r"C:\Users\User'''\.streamlit\輸出檔案\金尉.xlsx")  
         
             # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
-            from pylab import mpl
-            mpl.rcParams['font.sans-serif'] = ['Microsoft YaHei']  
-            # 指定默認字形：解決plot不能顯示中文問題
-            mpl.rcParams['axes.unicode_minus'] = False
+            import matplotlib.pyplot as plt
+            import matplotlib.font_manager as fm
+            import streamlit as st
+            # 设置中文字体URL
+            font_url = "https://example.com/path/to/noto-cjk/NotoSansCJKsc-Regular.otf"
+            # 指定字体
+            fontprop = fm.FontProperties(url=font_url, size=14)
         
             import matplotlib.pyplot as plt
             fig, ax = plt.subplots(figsize=(1, 1))
