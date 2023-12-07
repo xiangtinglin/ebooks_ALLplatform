@@ -82,16 +82,10 @@ if user_input:
         
             import matplotlib.pyplot as plt
             
-            x = result.groupby(by=['季']).sum('權利金')
-            def func(s,d):
-                t = int(round(s/100.*sum(d)))     # 透過百分比反推原本的數值
-                return f'{s:.1f}%\n( {t}ml )'     # 使用文字格式化的方式，顯示內容
+            x = result.groupby(by=['季'])['權利金'].sum()
+
             plt.pie(x,
-                    labels= result["季"],
-                    # radius=1.5,
-                    # textprops={'color':'w', 'weight':'bold', 'size':12},  # 設定文字樣式
-                    # pctdistance=0.8,
-                    # autopct=lambda i: func(i,x),
+                    labels=x.index,
                     wedgeprops={'linewidth':3,'edgecolor':'w'})   # 繪製每個扇形的外框
             plt.show()
             st.pyplot(plt.gcf())
