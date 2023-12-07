@@ -72,14 +72,10 @@ if user_input:
             # result.to_excel(r"C:\Users\User'''\.streamlit\輸出檔案\金尉.xlsx")  
         
             # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
-        
-            !wget -O TaipeiSansTCBeta-Regular.ttf https://drive.google.com/uc?id=1eGAsTN1HBpJAkeVM57_C7ccp7hbgSz3_&export=download
-            import matplotlib.pyplot as plt 
-            from matplotlib.font_manager import fontManager
-            # 改style要在改font之前
-            # plt.style.use('seaborn')  
-            fontManager.addfont('TaipeiSansTCBeta-Regular.ttf')
-            mpl.rc('font', family='Taipei Sans TC Beta')
+            from pylab import mpl
+            mpl.rcParams['font.sans-serif'] = ['Microsoft YaHei']  
+            # 指定默認字形：解決plot不能顯示中文問題
+            mpl.rcParams['axes.unicode_minus'] = False
         
             import matplotlib.pyplot as plt
             fig, ax = plt.subplots(figsize=(1, 1))
