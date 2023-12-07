@@ -1,6 +1,6 @@
 import streamlit as st
 password = ["1234","6197","5354"]  # 替換成您想要的密碼
-
+#標題 
 st.title("權利金銷售情況")
 # 在首頁輸入密碼
 user_input = st.text_input("請輸入密碼:", type="password")
