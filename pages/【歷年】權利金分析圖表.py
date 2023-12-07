@@ -66,7 +66,7 @@ if user_input:
             '''*以下是書單上架情況統計'''
             total = f"{NUMBERorISBN}採購案數共:" + str(len(result)) + "(非title數)"
             total 
-            total_money = "歷年單位權利金總額:" + str(result["權利金"].sum() ) + "(新台幣)"
+            total_money = f"{NUMBERorISBN}歷年單位權利金總額:" + str(result["權利金"].sum() ) + "(新台幣)"
             total_money        
             # #匯出檔案
             # result.to_excel(r"C:\Users\User'''\.streamlit\輸出檔案\金尉.xlsx")  
@@ -81,7 +81,8 @@ if user_input:
             mpl.rcParams['axes.unicode_minus'] = False
         
             import matplotlib.pyplot as plt
-            x = result["權利金"]
+            
+            x = result.groupby(by=['季']).apply(lambda x:x[x.columns]).sum('權利金')
             def func(s,d):
                 t = int(round(s/100.*sum(d)))     # 透過百分比反推原本的數值
                 return f'{s:.1f}%\n( {t}ml )'     # 使用文字格式化的方式，顯示內容
