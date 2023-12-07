@@ -82,7 +82,7 @@ if user_input:
         
             import matplotlib.pyplot as plt
             
-            x = result.groupby(by=['季']).apply(lambda x:x[x.columns]).sum('權利金')
+            x = result.groupby(by=['季']).sum('權利金')
             def func(s,d):
                 t = int(round(s/100.*sum(d)))     # 透過百分比反推原本的數值
                 return f'{s:.1f}%\n( {t}ml )'     # 使用文字格式化的方式，顯示內容
