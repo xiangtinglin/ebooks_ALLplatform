@@ -38,7 +38,7 @@ if user_input:
             '''> STEP.3 自動分析~BOOM!!'''
         
             import pandas as pd
-            sheet_name = "總經銷書單"
+            sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
         
             @st.cache_data(ttl=3600)  # 設定生存時間 (TTL) 為 3600 秒 (1 小時)
             def long_running_function(file_path):
