@@ -59,15 +59,13 @@ if user_input:
             Filter_contract_number = data["合約詳編"] == NUMBERorISBN
             Filter_isbn = data["ISBN"] == NUMBERorISBN
             result = data[Filter_contract_number | Filter_isbn]
-            # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
-            from pylab import mpl
-            mpl.rcParams['font.sans-serif'] = ['Microsoft YaHei']  
-            # 指定默認字形：解決plot不能顯示中文問題
-            mpl.rcParams['axes.unicode_minus'] = False
             
+            # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
             '''*以下是書單上架情況統計'''
             total = "總共採購案數(非title數):" + str(len(result))
             total 
+            total_money = result["權利金"].sum()
+            total_money        
             '''*以下是上進度架情況表(可供下載)'''
             result.index = range(1,len(result)+1)
             st.dataframe(result)
@@ -78,29 +76,23 @@ if user_input:
         
             '''**開始繪圖(請耐心等候....但其實很快^^ XD)'''
             #繪圖_顯示特殊字形
+            from pylab import mpl
+            mpl.rcParams['font.sans-serif'] = ['Microsoft YaHei']  
+            # 指定默認字形：解決plot不能顯示中文問題
+            mpl.rcParams['axes.unicode_minus'] = False
+        
             import matplotlib.pyplot as plt
-            plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
-            # Solve the issue with displaying Chinese characters
-            plt.rcParams['axes.unicode_minus'] = False
-        
-            # #新增欄位
-            # result.insert(0, column="佔比", value=1)
-            # result = result.groupby(by=['書名']).apply(lambda x:x[x.columns]).plot(
-            #     kind='pie', y="佔比")
-        
-            # plt.title('&#8203;``【oaicite:0】``&#8203;',color='r',size=18)
-            # plt.xlabel("(分類依據：)",color='gray',size=10)
-            # plt.ylabel("佔比(%)",color='blue')
-            # plt.legend(loc='lower right')
-            # plt.show()
-            ## 導入套件
-            import time
-            import numpy as np
-            import pandas as pd
-            chart_data = pd.DataFrame(
-                np.random.randn(20, 3),
-                columns=['a', 'b', 'c'])
-            st.line_chart(chart_data)
+            result['權利金'] = float(result['權利金'])
+            
+            # explode = (0.05, 0.05)
+            # colors = ['pink', 'steelblue']
+            result.groupby(['銷售單位']).apply(lambda x:x[x.columns]).plot(kind='pie')
+
+            plt.title('【B2C經銷平台】銷售情況',color='r',size=18)
+            plt.xlabel("(統計至2023/10/17止)",color='gray',size=10)
+            plt.ylabel("佔比(%)",color='blue')
+            plt.legend(loc='lower right')
+            st.pyplot()
         else:
             st.warning("請上傳 Excel 文件。")
     else:
