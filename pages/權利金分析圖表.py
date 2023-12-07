@@ -9,8 +9,7 @@ user_input = st.text_input("請輸入密碼:", type="password")
 if user_input:    
     # 驗證密碼
     if user_input in passwords:
-        user_name = names[passwords.index(user_input)]
-        st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
+
         # 在這裡放置您的應用程序主要內容
         #前端介面輸入框
         '''僅第一次載入大量數據需要數秒，之後查詢會很快^^'''
