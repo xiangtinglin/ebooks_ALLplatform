@@ -64,9 +64,9 @@ if user_input:
             st.dataframe(result)
             # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
             '''*以下是書單上架情況統計'''
-            total = f"{NUMBERorISBN}採購案數共(非title數):" + str(len(result))
+            total = f"{NUMBERorISBN}採購案數共:" + str(len(result)) + "(非title數)"
             total 
-            total_money = "歷年單位權利金總額:" + str(result["權利金"].sum() )
+            total_money = "歷年單位權利金總額:" + str(result["權利金"].sum() ) + "(新台幣)"
             total_money        
             # #匯出檔案
             # result.to_excel(r"C:\Users\User'''\.streamlit\輸出檔案\金尉.xlsx")  
