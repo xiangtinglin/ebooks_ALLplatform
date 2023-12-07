@@ -72,21 +72,17 @@ if user_input:
             # result.to_excel(r"C:\Users\User'''\.streamlit\輸出檔案\金尉.xlsx")  
         
             # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
-            import matplotlib.pyplot as plt
+            import plotly.express as px
             import streamlit as st
             
-            # 使用默认中文字体
-            plt.rcParams['font.sans-serif'] = ['SimHei']
-        
-            import matplotlib.pyplot as plt
-            fig, ax = plt.subplots(figsize=(1, 1))
-            x = result.groupby(by=['銷售地區'])['權利金'].sum()
-
-            plt.pie(x,
-                    labels=x.index,
-                    wedgeprops={'linewidth':3,'edgecolor':'w'})   # 繪製每個扇形的外框
-            plt.show()
-            st.pyplot(plt.gcf())
+            # 按銷售地區分组并计算權利金总和
+            x = result.groupby(by=['銷售地區'])['權利金'].sum().reset_index()
+            
+            # 绘制饼图
+            fig = px.pie(x, values='權利金', names='銷售地區', title='Sales Distribution by Region')
+            
+            # 在 Streamlit 中显示 Plotly 图表
+            st.plotly_chart(fig)
         else:
             st.warning("請上傳 Excel 文件。")
     else:
