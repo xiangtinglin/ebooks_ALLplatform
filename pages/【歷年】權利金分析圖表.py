@@ -81,12 +81,12 @@ if user_input:
             mpl.rcParams['axes.unicode_minus'] = False
         
             import matplotlib.pyplot as plt
-            x = result["季"]
+            x = result["權利金"]
             def func(s,d):
                 t = int(round(s/100.*sum(d)))     # 透過百分比反推原本的數值
                 return f'{s:.1f}%\n( {t}ml )'     # 使用文字格式化的方式，顯示內容
             plt.pie(x,
-                    labels= result["權利金"],
+                    labels= result["季"],
                     # radius=1.5,
                     # textprops={'color':'w', 'weight':'bold', 'size':12},  # 設定文字樣式
                     # pctdistance=0.8,
