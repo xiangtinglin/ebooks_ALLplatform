@@ -44,37 +44,27 @@ if user_input:
             def long_running_function(file_path):
                 data = pd.read_excel(file_path,
                                      sheet_name=sheet_name,         #@指定分頁
-                                     usecols=[0,2,3,8,17,19,23,25,29,31,36,38,42,44,48,50,54,56,60,62,66,68,72,74,78,80,84,86,90,92,96,98],  #@指定欄位
+                                     usecols=[0,1,2,3,5,7,9,10,11,12,13,14,15,16,20,21,22,23,24,37],  #@指定欄位
                                      # nrows=10,                      #@指定列數
-                                     # header = 3,                      #header = ?  >> 指定第?列為header(index)
+                                     header = 0,                      #header = ?  >> 指定第?列為header(index)
                                      engine='openpyxl')
                 return data
         
             # Call the function with the uploaded file
             data = long_running_function(uploaded_file)
-        
-            # 指定要查找和替换的内容
-            replacement_dict = {
-                "R": "已提報",
-                "W": "近期準備提報",
-                "O": "O已上架",
-                "P": "無法提報、下架",
-                "P1": "此電子書已無授權",
-                "P2": "不符平台提報規格",
-                "P3": "重複上架(版權衝突)",
-                "P4": "問題件"
-                # 添加更多的查找和替换项
-            }
-            # 使用pandas的replace函数进行替换
-            data.replace(replacement_dict, inplace=True) 
-        
+
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
         
             #篩選條件
-            Filter_contract_number = data["合約編號"] == NUMBERorISBN
+            Filter_contract_number = data["合約詳編"] == NUMBERorISBN
             Filter_isbn = data["ISBN"] == NUMBERorISBN
             result = data[Filter_contract_number | Filter_isbn]
             # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
+            from pylab import mpl
+            mpl.rcParams['font.sans-serif'] = ['Microsoft YaHei']  
+            # 指定默認字形：解決plot不能顯示中文問題
+            mpl.rcParams['axes.unicode_minus'] = False
+            
             '''*以下是書單上架情況統計'''
             total = "總共建檔數:" + str(len(result))
             total 
