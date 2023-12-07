@@ -66,7 +66,7 @@ if user_input:
             mpl.rcParams['axes.unicode_minus'] = False
             
             '''*以下是書單上架情況統計'''
-            total = "總共建檔數:" + str(len(result))
+            total = "總共採購案數(非title數):" + str(len(result))
             total 
             '''*以下是上進度架情況表(可供下載)'''
             result.index = range(1,len(result)+1)
