@@ -1,8 +1,8 @@
 import streamlit as st
 #設定密碼
 passwords_and_names = {
-    "": "啟宏",
-    "": "禮澤",
+    "8311": "啟宏",
+    "8497": "禮澤",
     "8661": "Gem林芝",
     "8927": "Amber虹儀",
     "8968": "Maggie玫君",
