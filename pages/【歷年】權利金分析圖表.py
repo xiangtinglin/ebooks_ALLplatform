@@ -81,15 +81,14 @@ if user_input:
             mpl.rcParams['axes.unicode_minus'] = False
         
             import matplotlib.pyplot as plt
-            result['權利金'] = float(result['權利金'])
             
             # explode = (0.05, 0.05)
             # colors = ['pink', 'steelblue']
             result.groupby(['銷售單位']).apply(lambda x:x[x.columns]).plot(kind='pie')
 
             plt.title('【B2C經銷平台】銷售情況',color='r',size=18)
-            plt.xlabel("(統計至2023/10/17止)",color='gray',size=10)
-            plt.ylabel("佔比(%)",color='blue')
+            # plt.xlabel("(統計至2023/10/17止)",color='gray',size=10)
+            # plt.ylabel("佔比(%)",color='blue')
             plt.legend(loc='lower right')
             st.pyplot()
         else:
