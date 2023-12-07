@@ -80,11 +80,19 @@ if user_input:
             # 指定默認字形：解決plot不能顯示中文問題
             mpl.rcParams['axes.unicode_minus'] = False
         
-            import plotly.express as px
-            fig = px.bar(result, x='季', y='權利金', histfunc='sum', height=300,
-                                title='Histogram Chart')
-            fig.show()
-            st.plotly_chart(fig)
+            import matplotlib.pyplot as plt
+            x = result["季"]
+            def func(s,d):
+                t = int(round(s/100.*sum(d)))     # 透過百分比反推原本的數值
+                return f'{s:.1f}%\n( {t}ml )'     # 使用文字格式化的方式，顯示內容
+            plt.pie(x,
+                    labels= result["權利金"],
+                    # radius=1.5,
+                    # textprops={'color':'w', 'weight':'bold', 'size':12},  # 設定文字樣式
+                    # pctdistance=0.8,
+                    # autopct=lambda i: func(i,x),
+                    wedgeprops={'linewidth':3,'edgecolor':'w'})   # 繪製每個扇形的外框
+            plt.show()
         else:
             st.warning("請上傳 Excel 文件。")
     else:
