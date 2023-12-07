@@ -10,7 +10,7 @@ if user_input:
         st.success("密碼正確，已解鎖應用程序！") 
         # 在這裡放置您的應用程序主要內容
         #前端介面輸入框
-        st.title("書單上架情況(已授權&建檔)")
+        st.title("權利金銷售情況")
         '''僅第一次載入大量數據需要數秒，之後查詢會很快^^'''
         '''> STEP.1 匯入檔案(資安考量，從你電腦匯入檔案較安全喔) ↓ '''
         uploaded_file = st.file_uploader("上傳Excel文件", type=["xlsx"])
