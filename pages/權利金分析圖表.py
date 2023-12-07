@@ -21,7 +21,9 @@ user_input = st.text_input("請輸入密碼:", type="password")
 if user_input:    
     # 驗證密碼
     if user_input in passwords:
-        user_name = names[passwords.index(user_input)]
+        if user_input in passwords_and_names:
+        # 獲取對應的名字
+        user_name = passwords_and_names[user_input]
         st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
         # 在這裡放置您的應用程序主要內容
         #前端介面輸入框
