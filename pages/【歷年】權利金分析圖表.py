@@ -82,7 +82,7 @@ if user_input:
         
             import matplotlib.pyplot as plt
             fig, ax = plt.subplots(figsize=(1, 1))
-            x = result.groupby(by=['季'])['權利金'].sum()
+            x = result.groupby(by=['銷售地區'])['權利金'].sum()
 
             plt.pie(x,
                     labels=x.index,
