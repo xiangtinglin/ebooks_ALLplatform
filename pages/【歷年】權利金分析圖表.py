@@ -85,7 +85,7 @@ if user_input:
                                 title='Histogram Chart')
             fig.show()
 
-            st.pyplot()
+            st.plotly_chart(fig)
         else:
             st.warning("請上傳 Excel 文件。")
     else:
