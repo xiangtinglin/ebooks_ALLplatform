@@ -81,10 +81,9 @@ if user_input:
             mpl.rcParams['axes.unicode_minus'] = False
         
             import plotly.express as px
-            fig = px.histogram(result, x='季', y='權利金', histfunc='sum', height=300,
+            fig = px.bar(result, x='季', y='權利金', histfunc='sum', height=300,
                                 title='Histogram Chart')
             fig.show()
-            st.pyplot(plt.gcf())
             st.plotly_chart(fig)
         else:
             st.warning("請上傳 Excel 文件。")
