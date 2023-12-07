@@ -59,16 +59,15 @@ if user_input:
             Filter_contract_number = data["合約詳編"] == NUMBERorISBN
             Filter_isbn = data["ISBN"] == NUMBERorISBN
             result = data[Filter_contract_number | Filter_isbn]
-            
+            '''*以下是篩選後的權利金情形(可供下載)'''
+            result.index = range(1,len(result)+1)
+            st.dataframe(result)
             # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
             '''*以下是書單上架情況統計'''
             total = "總共採購案數(非title數):" + str(len(result))
             total 
-            total_money = result["權利金"].sum()
+            total_money = "歷年單位權利金總額:" + result["權利金"].sum()
             total_money        
-            '''*以下是上進度架情況表(可供下載)'''
-            result.index = range(1,len(result)+1)
-            st.dataframe(result)
             # #匯出檔案
             # result.to_excel(r"C:\Users\User'''\.streamlit\輸出檔案\金尉.xlsx")  
         
