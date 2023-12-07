@@ -73,10 +73,13 @@ if user_input:
         
             # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
         
-            '''**開始繪圖(請耐心等候....但其實很快^^ XD)'''
-            #繪圖_顯示特殊字形
-            import matplotlib.pyplot as plt
-            plt.rcParams["font.family"] = 'Arial Unicode MS'
+            !wget -O TaipeiSansTCBeta-Regular.ttf https://drive.google.com/uc?id=1eGAsTN1HBpJAkeVM57_C7ccp7hbgSz3_&export=download
+            import matplotlib.pyplot as plt 
+            from matplotlib.font_manager import fontManager
+            # 改style要在改font之前
+            # plt.style.use('seaborn')  
+            fontManager.addfont('TaipeiSansTCBeta-Regular.ttf')
+            mpl.rc('font', family='Taipei Sans TC Beta')
         
             import matplotlib.pyplot as plt
             fig, ax = plt.subplots(figsize=(1, 1))
