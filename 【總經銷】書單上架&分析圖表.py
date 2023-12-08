@@ -1,5 +1,16 @@
 import pipes
 import streamlit as st
+# 添加 toggle 按鈕
+toggle_button = st.sidebar.checkbox("摺疊/展開分頁")
+
+# 如果 toggle 按鈕被勾選，顯示分頁內容
+if toggle_button:
+    with st.sidebar.beta_expander("分頁內容"):
+        st.write("這是分頁的內容")
+
+# 主要內容
+st.title("Streamlit 工具欄摺疊分頁範例")
+st.write("這是主要內容")
 passwords = ["8927","8968","6045","6197","6230"]  # 替換成您想要的密碼
 names = ["Amber", "Maggie", "Grace", "湘婷", "Iris"]
 #標題 
