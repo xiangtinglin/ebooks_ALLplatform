@@ -89,7 +89,7 @@ if user_input:
             # --------------- 繪圖 ▼ 銷售市場-地區(pie圖)-------------
             # 按銷售地區分组并计算權利金总和
             x = result.groupby(by=['銷售地區'])['電子書內容收益'].sum().reset_index()
-            fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='【銷售市場】-地區佔比', 
+            fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='【銷售市場】-海內/外收益佔比', 
                          hover_data=['電子書內容收益'],
                          )
             fig.update_layout(height=500, width=700)
