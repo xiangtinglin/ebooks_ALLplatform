@@ -88,7 +88,7 @@ if user_input:
             # --------------- 繪圖 ▼ 歷年收益(長條圖)-------------
             import plotly.express as px
             import pandas as pd
-            px.bar(result, x='年', y='電子書內容收益', title='【歷年】電子書內容收益')
+            fig = px.bar(result, x='年', y='電子書內容收益', title='【歷年】電子書內容收益')
             
             # 在 Streamlit 中显示 Plotly 图表
             st.plotly_chart(fig)
