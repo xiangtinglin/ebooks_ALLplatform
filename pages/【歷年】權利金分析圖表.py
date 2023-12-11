@@ -77,6 +77,17 @@ if user_input:
             # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
             import plotly.express as px
             import streamlit as st
+            # --------------- 繪圖 ▼ 歷年收益(長條圖)-------------
+            import plotly.express as px
+            import pandas as pd
+            fig = px.bar(result, x='年', y='電子書內容收益', title='【歷年】電子書內容收益')
+            # 調整 x 軸刻度為整數
+            fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
+            fig.update_xaxes(tickmode='linear')  # 使用線性刻度
+            fig.update_xaxes(tick0=0)  # 刻度的起始點
+            fig.update_xaxes(dtick=1)  # 刻度的間距
+            # 在 Streamlit 中显示 Plotly 图表
+            st.plotly_chart(fig)
             # --------------- 繪圖 ▼ 銷售市場-地區(pie圖)-------------
             # 按銷售地區分组并计算權利金总和
             x = result.groupby(by=['銷售地區'])['電子書內容收益'].sum().reset_index()
@@ -92,17 +103,7 @@ if user_input:
             fig = px.bar(x, x='銷售單位', y='電子書內容收益', title='【銷售單位】排名前五')
             # 在 Streamlit 中显示 Plotly 图表
             st.plotly_chart(fig)
-            # --------------- 繪圖 ▼ 歷年收益(長條圖)-------------
-            import plotly.express as px
-            import pandas as pd
-            fig = px.bar(result, x='年', y='電子書內容收益', title='【歷年】電子書內容收益')
-            # 調整 x 軸刻度為整數
-            fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
-            fig.update_xaxes(tickmode='linear')  # 使用線性刻度
-            fig.update_xaxes(tick0=0)  # 刻度的起始點
-            fig.update_xaxes(dtick=1)  # 刻度的間距
-            # 在 Streamlit 中显示 Plotly 图表
-            st.plotly_chart(fig)
+
         else:
             st.warning("請上傳 Excel 文件。")
     else:
