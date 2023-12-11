@@ -66,7 +66,7 @@ if user_input:
             '''*以下是書單上架情況統計'''
             total = f"{NUMBERorISBN}採購案數共:" + str(len(result)) + "(非title數)"
             total 
-            total_money = f"{NUMBERorISBN}歷年單位權利金總額:" + str(result["權利金"].sum() ) + "(新台幣)"
+            total_money = f"{NUMBERorISBN}單位歷年電子書內容收益總額:" + str(result["電子書內容收益"].sum() ) + "(新台幣)"
             total_money        
             # #匯出檔案
             # result.to_excel(r"C:\Users\User'''\.streamlit\輸出檔案\金尉.xlsx")  
