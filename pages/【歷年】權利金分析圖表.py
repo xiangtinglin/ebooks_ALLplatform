@@ -71,7 +71,8 @@ if user_input:
             '''以下是銷售情況'''
             total_money = f"二、{NUMBERorISBN}單位歷年電子書內容收益總額:" + str(result["電子書內容收益"].sum() ) + "(新台幣)"
             total_money        
-            pd_income_peryear = result.groupby(by=['年'])['電子書內容收益'].sum().reset_index().index(range(1,len(pd_income_peryear)+1))
+            pd_income_peryear = result.groupby(by=['年'])['電子書內容收益'].sum().reset_index()
+            pd_income_peryear.index = range(1,len(pd_income_peryear)+1)
             pd_income_peryear
             # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
             import plotly.express as px
