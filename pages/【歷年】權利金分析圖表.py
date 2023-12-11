@@ -54,7 +54,7 @@ if user_input:
             data = long_running_function(uploaded_file)
 
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
-            
+            #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
             #篩選條件
             Filter_contract_number = data["合約詳編"] == NUMBERorISBN
@@ -84,6 +84,12 @@ if user_input:
             fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='Sales Distribution by Region', 
                          hover_data=['電子書內容收益'],
                          )
+            st.plotly_chart(fig)
+            # --------------- 繪圖 ▼ 歷年收益(長條圖)-------------
+            import plotly.express as px
+            import pandas as pd
+            px.bar(result, x='年', y='電子書內容收益', title='【歷年】電子書內容收益')
+            
             # 在 Streamlit 中显示 Plotly 图表
             st.plotly_chart(fig)
         else:
