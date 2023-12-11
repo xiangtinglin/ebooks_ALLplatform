@@ -76,11 +76,11 @@ if user_input:
             import streamlit as st
     
             # 按銷售地區分组并计算權利金总和
-            x = result.groupby(by=['銷售地區'])['權利金'].sum().reset_index()
+            x = result.groupby(by=['銷售地區'])['電子書內容收益'].sum().reset_index()
             
             # 绘制带有数值的饼图
-            fig = px.pie(x, values='權利金', names='銷售地區', title='Sales Distribution by Region', 
-                         hover_data=['權利金'],
+            fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='Sales Distribution by Region', 
+                         hover_data=['電子書內容收益'],
                          )
             
             # 在 Streamlit 中显示 Plotly 图表
