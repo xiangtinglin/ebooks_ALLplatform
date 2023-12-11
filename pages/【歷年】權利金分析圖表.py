@@ -55,8 +55,7 @@ if user_input:
 
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
             
-            year, quarter = data["季"].split("Q")
-            year = data["年"]
+            data[["年", "季"]] = data["季"].str.split("Q", expand=True)
             #篩選條件
             Filter_contract_number = data["合約詳編"] == NUMBERorISBN
             Filter_isbn = data["ISBN"] == NUMBERorISBN
