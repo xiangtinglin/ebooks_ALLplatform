@@ -66,9 +66,11 @@ if user_input:
             st.dataframe(result)
             # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
             '''# 以下是銷售情況統計'''
-            total = f"一、{NUMBERorISBN}採購案數共:" + str(len(result)) + "(非title數)"
+            total = f"一、{NUMBERorISBN}採購案件數共:" + str(len(result)) + "(非title數)"
             total 
-            total_money = f"二、{NUMBERorISBN}單位歷年電子書內容收益總額:" + str(result["電子書內容收益"].sum() ) + "(新台幣)"
+            total_money = f"二、{NUMBERorISBN}單位歷年電子書銷售單位數:" + str(result["銷售單位"].value_counts() ) + "(個)"
+            total_money 
+            total_money = f"三、{NUMBERorISBN}單位歷年電子書內容收益總額:" + str(result["電子書內容收益"].sum() ) + "(新台幣)"
             total_money        
             pd_income_peryear = result.groupby(by=['年'])['電子書內容收益'].sum().reset_index()
             pd_income_peryear.index = range(1,len(pd_income_peryear)+1)
