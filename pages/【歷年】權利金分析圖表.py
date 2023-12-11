@@ -81,11 +81,7 @@ if user_input:
             import plotly.express as px
             import pandas as pd
             fig = px.bar(pd_income_peryear, x='年', y='電子書內容收益', title='【歷年】電子書內容收益')
-            # 調整 x 軸刻度為整數
-            fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
-            fig.update_xaxes(tickmode='linear')  # 使用線性刻度
-            fig.update_xaxes(tick0=0)  # 刻度的起始點
-            fig.update_xaxes(dtick=1)  # 刻度的間距
+
             # 在 Streamlit 中显示 Plotly 图表
             st.plotly_chart(fig)
             # --------------- 繪圖 ▼ 銷售市場-地區(pie圖)-------------
