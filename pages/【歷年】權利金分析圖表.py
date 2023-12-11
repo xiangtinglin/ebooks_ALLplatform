@@ -61,17 +61,18 @@ if user_input:
             Filter_isbn = data["ISBN"] == NUMBERorISBN
             result = data[Filter_contract_number | Filter_isbn]
             
-            '''*以下是篩選後的權利金情形(可供下載)'''
+            '''# 以下是篩選後的權利金情形(可供下載)'''
             result.index = range(1,len(result)+1)
             st.dataframe(result)
             # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
-            '''*以下是書單上架情況統計'''
-            total = f"{NUMBERorISBN}採購案數共:" + str(len(result)) + "(非title數)"
+            '''# 以下是書單上架情況統計'''
+            total = f"一、{NUMBERorISBN}採購案數共:" + str(len(result)) + "(非title數)"
             total 
             '''以下是銷售情況'''
-            total_money = f"{NUMBERorISBN}單位歷年電子書內容收益總額:" + str(result["電子書內容收益"].sum() ) + "(新台幣)"
+            total_money = f"二、{NUMBERorISBN}單位歷年電子書內容收益總額:" + str(result["電子書內容收益"].sum() ) + "(新台幣)"
             total_money        
             pd_income_peryear = result.groupby(by=['年'])['電子書內容收益'].sum().reset_index()
+            pd_income_peryear.index = range(1,len(result)+1)
             pd_income_peryear
             # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
             import plotly.express as px
