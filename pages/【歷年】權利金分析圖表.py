@@ -82,9 +82,10 @@ if user_input:
             x = result.groupby(by=['銷售地區'])['電子書內容收益'].sum().reset_index()
             
             # 绘制带有数值的饼图
-            fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='Sales Distribution by Region', 
+            fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='【銷售市場】-地區佔比', 
                          hover_data=['電子書內容收益'],
                          )
+            fig.update_layout(height=500, width=700)
             st.plotly_chart(fig)
             # --------------- 繪圖 ▼ 歷年收益(長條圖)-------------
             import plotly.express as px
