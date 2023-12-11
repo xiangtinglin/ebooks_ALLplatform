@@ -77,28 +77,21 @@ if user_input:
             # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
             import plotly.express as px
             import streamlit as st
-    
+            # --------------- 繪圖 ▼ 銷售市場-地區(pie圖)-------------
             # 按銷售地區分组并计算權利金总和
             x = result.groupby(by=['銷售地區'])['電子書內容收益'].sum().reset_index()
-            
-            # --------------- 繪圖 ▼ 銷售市場-地區(pie圖)-------------
             fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='【銷售市場】-地區佔比', 
                          hover_data=['電子書內容收益'],
                          )
             fig.update_layout(height=500, width=700)
             st.plotly_chart(fig)
-            # --------------- 繪圖 ▼ 銷售客源(pie圖)-------------
-            import matplotlib.pyplot as plt
-            import seaborn as sns
-            
-            #define data
-            data = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index()
-            labels = data["銷售單位"]
-            
-            colors = sns.color_palette('pastel')[0:8]
-            #create pie chart
-            plt.pie(data['電子書內容收益'], labels = labels, colors = colors, autopct='%.0f%%')
-            plt.show()
+            # --------------- 繪圖 ▼ 銷售客源(長條圖)-------------
+            import plotly.express as px
+            import pandas as pd
+            x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
+            fig = px.bar(result, x='銷售單位', y='電子書內容收益', title='【銷售單位】排名前五')
+            # 在 Streamlit 中显示 Plotly 图表
+            st.plotly_chart(fig)
             # --------------- 繪圖 ▼ 歷年收益(長條圖)-------------
             import plotly.express as px
             import pandas as pd
