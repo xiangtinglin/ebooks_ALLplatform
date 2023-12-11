@@ -54,11 +54,14 @@ if user_input:
             data = long_running_function(uploaded_file)
 
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
-        
+            
+            year, quarter = data["季"].split("Q")
+            year = data["年"]
             #篩選條件
             Filter_contract_number = data["合約詳編"] == NUMBERorISBN
             Filter_isbn = data["ISBN"] == NUMBERorISBN
             result = data[Filter_contract_number | Filter_isbn]
+            
             '''*以下是篩選後的權利金情形(可供下載)'''
             result.index = range(1,len(result)+1)
             st.dataframe(result)
@@ -82,7 +85,6 @@ if user_input:
             fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='Sales Distribution by Region', 
                          hover_data=['電子書內容收益'],
                          )
-            
             # 在 Streamlit 中显示 Plotly 图表
             st.plotly_chart(fig)
         else:
