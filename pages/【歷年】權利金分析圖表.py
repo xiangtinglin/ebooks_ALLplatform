@@ -83,7 +83,7 @@ if user_input:
             fig.update_xaxes(tickmode='linear')  # 使用線性刻度
             fig.update_xaxes(tick0=0)  # 刻度的起始點
             fig.update_xaxes(dtick=1)  # 刻度的間距
-
+            fig.update_layout(title_x=0.5, title_xanchor='center')
             # 在 Streamlit 中显示 Plotly 图表
             st.plotly_chart(fig)
             # --------------- 繪圖 ▼ 銷售市場-地區(pie圖)-------------
