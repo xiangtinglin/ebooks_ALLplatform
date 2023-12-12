@@ -115,9 +115,16 @@ if user_input:
             # --------------- 繪圖 ▼ 【出版品出版年】銷售收益前五(長條圖)-------------
             import plotly.express as px
             import pandas as pd
-            # 計算總額
-
-            fig = px.bar(result, x='出版年', y='電子書內容收益',text='出版年收益百分比', title='【出版品出版年】銷售收益前五')
+            total_sales = result['電子書內容收益'].sum()
+            x['出版年'] = result['出版年'].str.replace(' ', '')  # 去除所有空格
+            x = result.groupby(by=['出版年'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
+            # 計算各單位銷售佔總額的比例
+            x['出版年收益百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
+            fig = px.bar(x, x='出版年', y='電子書內容收益',text='出版年收益百分比', title='【出版品出版年】銷售收益前五')
+            fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
+            fig.update_xaxes(tickmode='linear')  # 使用線性刻度
+            fig.update_xaxes(tick0=0)  # 刻度的起始點
+            fig.update_xaxes(dtick=1)  # 刻度的間距
 
             # 在 Streamlit 中显示 Plotly 图表
             st.plotly_chart(fig)
