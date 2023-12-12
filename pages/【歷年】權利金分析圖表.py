@@ -47,7 +47,7 @@ if user_input:
         data = long_running_function(uploaded_file)
         
         if uploaded_file:
-            '''檢視個單位銷售排名'''
+            '''檢視各單位銷售排名'''
             total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index()
             total_rank.index = range(1,len(total_rank)+1)
             total_rank
