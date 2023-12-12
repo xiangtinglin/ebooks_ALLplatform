@@ -111,7 +111,7 @@ if user_input:
             fig = px.bar(x, x='銷售單位', y='電子書內容收益',text='百分比', title='【銷售平台】排名前五')
             # 在 Streamlit 中显示 Plotly 图表
             st.plotly_chart(fig)
-                        x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
+            x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
             # --------------- 繪圖 ▼ 【出版品出版年】銷售收益前五(長條圖)-------------
             import plotly.express as px
             import pandas as pd
