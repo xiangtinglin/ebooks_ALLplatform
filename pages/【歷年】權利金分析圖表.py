@@ -24,12 +24,12 @@ if user_input:
         # 獲取對應的名字
         user_name = passwords_and_names[user_input]
         st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
+        
+        '''僅第一次載入大量數據需要數秒，之後查詢會很快^^'''
+        '''> STEP.1 匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓ '''
+        uploaded_file = st.file_uploader("上傳Excel文件", type=["xlsx"])
  # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
         if uploaded_file:
-
-            '''僅第一次載入大量數據需要數秒，之後查詢會很快^^'''
-            '''> STEP.1 匯入檔案(資安考量，從你電腦匯入檔案較安全喔) ↓ '''
-            uploaded_file = st.file_uploader("上傳Excel文件", type=["xlsx"])
                     
             import pandas as pd
             sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
