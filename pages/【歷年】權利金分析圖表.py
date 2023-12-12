@@ -122,8 +122,6 @@ if user_input:
             fig = px.bar(x, x='出版年', y='電子書內容收益',text='百分比', title='【出版品出版年】銷售收益前五')
             # 在 Streamlit 中显示 Plotly 图表
             st.plotly_chart(fig)
-            # 計算總額
-            total_sales = result['電子書內容收益'].sum()
 
         else:
             st.warning("請上傳 Excel 文件。")
