@@ -31,6 +31,11 @@ if user_input:
         uploaded_file = st.file_uploader("上傳Excel文件", type=["xlsx"])
         
         if uploaded_file:
+            '''檢視個單位銷售排名'''
+            total_rank = uploaded_file.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index()
+            total_rank.index = range(1,len(pd_income_peryear)+1)
+            total_rank
+       
             '''> STEP.2 匯入檔案後，輸入條件查詢'''
             NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
             NUMBERorISBN = NUMBERorISBN.upper()
