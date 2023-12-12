@@ -119,8 +119,8 @@ if user_input:
             total_sales = result['電子書內容收益'].sum()
             x = result.groupby(by=['出版年'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
             # 計算各單位銷售佔總額的比例
-            x['百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
-            fig = px.bar(x, x='出版年', y='電子書內容收益',text='百分比', title='【出版品出版年】銷售收益前五')
+            x['出版年收益百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
+            fig = px.bar(x, x='出版年', y='電子書內容收益',text='出版年收益百分比', title='【出版品出版年】銷售收益前五')
             fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
             fig.update_xaxes(tickmode='linear')  # 使用線性刻度
             fig.update_xaxes(tick0=0)  # 刻度的起始點
