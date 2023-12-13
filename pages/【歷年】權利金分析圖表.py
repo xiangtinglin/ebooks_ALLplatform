@@ -53,20 +53,20 @@ if user_input:
             if st.button("# 各單位內容收益排名"):
                 view_option = st.selectbox("請選擇條件", ["無(預設)", "歷年加總", "近3年"])
     
-            if view_option == "歷年加總":
-                st.subheader("歷年加總")
-                total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
-                total_rank.index = range(1, len(total_rank) + 1)
-                st.table(total_rank)
-        
-            elif view_option == "近3年":
-                st.subheader("近3年")
-                # Assuming '年' is the column representing years
-                recent_3years_data = data[data['年'].isin(data['年'].unique()[-3:])]
-                recent_3years_rank = recent_3years_data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(
-                    by='電子書內容收益', ascending=False)
-                recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
-                st.table(recent_3years_rank)
+                if view_option == "歷年加總":
+                    st.subheader("歷年加總")
+                    total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
+                    total_rank.index = range(1, len(total_rank) + 1)
+                    st.table(total_rank)
+            
+                elif view_option == "近3年":
+                    st.subheader("近3年")
+                    # Assuming '年' is the column representing years
+                    recent_3years_data = data[data['年'].isin(data['年'].unique()[-3:])]
+                    recent_3years_rank = recent_3years_data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(
+                        by='電子書內容收益', ascending=False)
+                    recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
+                    st.table(recent_3years_rank)
                     
                     '''> STEP.2 匯入檔案後，輸入條件查詢'''
                     NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
