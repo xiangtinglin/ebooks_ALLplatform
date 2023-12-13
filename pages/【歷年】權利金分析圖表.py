@@ -74,9 +74,9 @@ if user_input:
             NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
             NUMBERorISBN = NUMBERorISBN.upper()
         
-            '''> STEP.3 自動分析~BOOM!!'''
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
             if NUMBERorISBN:
+                '''> STEP.3 自動分析~BOOM!!'''
                 with st.expander("自動分析~BOOM!!"):
                     #篩選條件
                     Filter_contract_number = data["合約詳編"] == NUMBERorISBN
