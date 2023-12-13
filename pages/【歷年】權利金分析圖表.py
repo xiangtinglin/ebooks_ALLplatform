@@ -55,19 +55,19 @@ if user_input:
                 with st.expander("電子書收益總覽"):
                     view_option = st.selectbox("請選擇條件", ["歷年加總", "近3年"])
         
-                # Display selected view
-                if view_option == "歷年加總":
-                    total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
-                    total_rank.index = range(1, len(total_rank) + 1)
-                    st.dataframe(total_rank)
-            
-                elif view_option == "近3年":
-                    # Assuming '年' is the column representing years
-                    recent_3years_data = data[data['年'].isin(data['年'].unique()[-3:])]
-                    recent_3years_rank = recent_3years_data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(
-                        by='電子書內容收益', ascending=False)
-                    recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
-                    st.dataframe(recent_3years_rank)  
+                    # Display selected view
+                    if view_option == "歷年加總":
+                        total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
+                        total_rank.index = range(1, len(total_rank) + 1)
+                        st.dataframe(total_rank)
+                
+                    elif view_option == "近3年":
+                        # Assuming '年' is the column representing years
+                        recent_3years_data = data[data['年'].isin(data['年'].unique()[-3:])]
+                        recent_3years_rank = recent_3years_data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(
+                            by='電子書內容收益', ascending=False)
+                        recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
+                        st.dataframe(recent_3years_rank)  
                 # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
                 '''> STEP.1-2 總攬 ↓ '''
             
