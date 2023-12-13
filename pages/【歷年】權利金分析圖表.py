@@ -68,9 +68,7 @@ if user_input:
                     recent_3years_rank = recent_3years_data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(
                         by='電子書內容收益', ascending=False)
                     recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
-                    st.dataframe(recent_3years_rank)
-            else:
-                st.warning("請上傳 Excel 文件。")    
+                    st.dataframe(recent_3years_rank)  
             # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
             '''> STEP.1-2 總攬 ↓ '''
         
@@ -151,6 +149,8 @@ if user_input:
 
         # 在 Streamlit 中显示 Plotly 图表
         st.plotly_chart(fig)
+        else:
+            st.warning("請上傳 Excel 文件。")  
     else:
         st.warning("密碼錯誤。")
 else:
