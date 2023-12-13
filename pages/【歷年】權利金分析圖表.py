@@ -56,7 +56,7 @@ if user_input:
                 '選擇功能(下拉式)',
                 ['無(預設)', '檢視各單位銷售排名(歷年加總)', '檢視近3年內容收益排名']
             )
-        
+    
             # Display different content based on the selected option
             if option == '檢視各單位銷售排名(歷年加總)':
                 total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
