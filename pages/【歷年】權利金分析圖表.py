@@ -68,9 +68,9 @@ if user_input:
                     recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
                     st.write(recent_3years_rank)
                 
-                '''> STEP.2 匯入檔案後，輸入條件查詢'''
-                NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
-                NUMBERorISBN = NUMBERorISBN.upper()
+            '''> STEP.2 匯入檔案後，輸入條件查詢'''
+            NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
+            NUMBERorISBN = NUMBERorISBN.upper()
         
             '''> STEP.3 自動分析~BOOM!!'''
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
