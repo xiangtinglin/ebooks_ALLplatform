@@ -26,7 +26,7 @@ if user_input:
         user_name = passwords_and_names[user_input]
         success_message = st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
         import time
-        time.sleep(0.5)
+        time.sleep(0.9)
         success_message.empty()
         st.empty()
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
