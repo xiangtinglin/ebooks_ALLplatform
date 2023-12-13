@@ -75,7 +75,7 @@ if user_input:
             NUMBERorISBN = NUMBERorISBN.upper()
         
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
-            if NUMBERorISBN ==data["合約詳編"]:
+            if NUMBERorISBN :
                 '''> STEP.3 自動分析~BOOM!!'''
                 with st.expander("自動分析~BOOM!!"):
                     #篩選條件
