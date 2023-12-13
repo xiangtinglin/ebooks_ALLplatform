@@ -51,6 +51,10 @@ if user_input:
             total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
             total_rank.index = range(1,len(total_rank)+1)
             total_rank
+
+            total_rank = data.groupby(by=['年','單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
+            total_rank.index = range(1,len(total_rank)+1)
+            total_rank
        
             '''> STEP.2 匯入檔案後，輸入條件查詢'''
             NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
