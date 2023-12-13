@@ -33,8 +33,6 @@ if user_input:
         '''> STEP.1 匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓ '''
         with st.expander("上傳Excel文件"):
             uploaded_file = st.file_uploader("上傳Excel文件(僅第一次載入大量數據需要數秒，之後查詢會很快^^)", type=["xlsx"])
-
-            if uploaded_file:
             # ------------------ 暫存函式 ▼------------------------
                 import pandas as pd
                 sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
@@ -49,7 +47,10 @@ if user_input:
                                          engine='openpyxl')
                     return data
                 # Call the function with the uploaded file
-                data = long_running_function(uploaded_file)
+                if uploaded_file:
+                    data = long_running_function(uploaded_file)
+                else:
+                    st.warning("請上傳 Excel 文件。") 
                 # ------------------ 原始資料加工 ▼------------------------
                 #拆份季節&年分
                 data[["年", "季"]] = data["季"].str.split("Q", expand=True)
@@ -148,9 +149,7 @@ if user_input:
                 fig.update_xaxes(dtick=1)  # 刻度的間距
         
                 # 在 Streamlit 中显示 Plotly 图表
-                st.plotly_chart(fig)
-            else:
-                st.warning("請上傳 Excel 文件。")  
+                st.plotly_chart(fig) 
     else:
         st.warning("密碼錯誤。")
 else:
