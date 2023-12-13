@@ -23,7 +23,10 @@ if user_input:
     if user_input in passwords_and_names:
         # 獲取對應的名字
         user_name = passwords_and_names[user_input]
-        st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
+        success_message = st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
+        import time
+        time.sleep(3)
+        success_message.empty()
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
         # ------------------ 上傳檔案 ▼------------------------
         '''> STEP.1 匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓ '''
@@ -50,7 +53,7 @@ if user_input:
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
             # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
             with st.expander("電子書收益總覽"):
-                view_option = st.selectbox("請選擇條件", ["歷年加總(預設)", "近3年"])
+                view_option = st.selectbox("請選擇條件", ["歷年加總", "近3年"])
         
                 # Display selected view
                 if view_option == "歷年加總":
