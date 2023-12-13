@@ -54,7 +54,7 @@ if user_input:
                 #拆份季節&年分
                 data[["年", "季"]] = data["季"].str.split("Q", expand=True)
                 with st.expander("電子書收益總覽"):
-                view_option = st.selectbox("請選擇條件", ["歷年加總", "近3年"])
+                    view_option = st.selectbox("請選擇條件", ["歷年加總", "近3年"])
         
                 # Display selected view
                 if view_option == "歷年加總":
