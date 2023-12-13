@@ -51,6 +51,8 @@ if user_input:
             # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
             if st.button("電子書收益總覽"):
                 view_option = st.selectbox("請選擇條件", ["收起區塊(預設)", "歷年加總", "近3年"])
+            else:
+                pass
 
             # Display selected view
             if view_option == "歷年加總":
