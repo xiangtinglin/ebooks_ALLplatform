@@ -32,6 +32,8 @@ if user_input:
         # Replace the user_input_placeholder with a new content
         new_content = st.text("New content after successful authentication")
         user_input_placeholder.empty()  
+else:
+    st.text("x")
 
 # # 在首頁輸入密碼
 # user_input = st.text_input("請輸入密碼:", type="password")
