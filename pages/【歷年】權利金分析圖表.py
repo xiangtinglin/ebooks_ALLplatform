@@ -66,6 +66,10 @@ if user_input:
                         by='電子書內容收益', ascending=False)
                     recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
                     st.dataframe(recent_3years_rank)
+                else:
+                    pass
+            else:
+                pass
                 
             '''> STEP.2 匯入檔案後，輸入條件查詢'''
             NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
