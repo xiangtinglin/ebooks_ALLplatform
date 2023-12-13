@@ -17,7 +17,7 @@ passwords_and_names = {
 st.title("權利金銷售情況")
 # 在首頁輸入密碼
 user_input = st.text_input("請輸入密碼:", type="password")
-
+user_input = user_input
 if user_input:    
     # 驗證密碼
     if user_input in passwords_and_names:
