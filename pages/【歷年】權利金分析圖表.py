@@ -29,26 +29,14 @@ if user_input:
         # 獲取對應的名字
         user_name = passwords_and_names[user_input]
         success_message = st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
-        
-        # Empty the entire user input block
-        user_input_placeholder.empty()
-
         import time
         time.sleep(0.9)
         success_message.empty()
-    # 驗證密碼
-    # if user_input in passwords_and_names:
-    #     # 獲取對應的名字
-    #     user_name = passwords_and_names[user_input]
-    #     success_message = st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
-    #     import time
-    #     time.sleep(0.9)
-    #     success_message.empty()
-    #     user_input.empty()
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
         # ------------------ 上傳檔案 ▼------------------------
         '''> STEP.1 匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓ '''
-        uploaded_file = st.file_uploader("上傳Excel文件(僅第一次載入大量數據需要數秒，之後查詢會很快^^)", type=["xlsx"])
+        with st.expander("上傳Excel文件"):
+            uploaded_file = st.file_uploader("上傳Excel文件(僅第一次載入大量數據需要數秒，之後查詢會很快^^)", type=["xlsx"])
 
         if uploaded_file:
         # ------------------ 暫存函式 ▼------------------------
