@@ -26,7 +26,8 @@ if user_input:
         success_message = st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
         import time
         time.sleep(0.5)
-        [success_message,user_input].empty()
+        success_messageuser.empty()
+        user_input.empty()
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
         # ------------------ 上傳檔案 ▼------------------------
         '''> STEP.1 匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓ '''
