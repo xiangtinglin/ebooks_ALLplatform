@@ -34,122 +34,122 @@ if user_input:
         with st.expander("上傳Excel文件"):
             uploaded_file = st.file_uploader("上傳Excel文件(僅第一次載入大量數據需要數秒，之後查詢會很快^^)", type=["xlsx"])
             # ------------------ 暫存函式 ▼------------------------
-                import pandas as pd
-                sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
-            
-                @st.cache_data(ttl=3600)  # 設定生存時間 (TTL) 為 3600 秒 (1 小時)
-                def long_running_function(file_path):
-                    data = pd.read_excel(file_path,
-                                         sheet_name=sheet_name,         #@指定分頁
-                                         usecols=[0,1,2,3,5,7,9,10,11,12,13,14,15,16,20,21,22,23,24,37],  #@指定欄位
-                                         # nrows=10,                      #@指定列數
-                                         header = 0,                      #header = ?  >> 指定第?列為header(index)
-                                         engine='openpyxl')
-                    return data
-                # Call the function with the uploaded file
-                if uploaded_file:
-                    data = long_running_function(uploaded_file)
-                else:
-                    st.warning("請上傳 Excel 文件。") 
-                # ------------------ 原始資料加工 ▼------------------------
-                #拆份季節&年分
-                data[["年", "季"]] = data["季"].str.split("Q", expand=True)
-                with st.expander("電子書收益總覽"):
-                    view_option = st.selectbox("請選擇條件", ["歷年加總", "近3年"])
+            import pandas as pd
+            sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
         
-                # Display selected view
-                if view_option == "歷年加總":
-                    total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
-                    total_rank.index = range(1, len(total_rank) + 1)
-                    st.dataframe(total_rank)
-            
-                elif view_option == "近3年":
-                    # Assuming '年' is the column representing years
-                    recent_3years_data = data[data['年'].isin(data['年'].unique()[-3:])]
-                    recent_3years_rank = recent_3years_data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(
-                        by='電子書內容收益', ascending=False)
-                    recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
-                    st.dataframe(recent_3years_rank)  
-                # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
-                '''> STEP.1-2 總攬 ↓ '''
-            
-                        
-                '''> STEP.2 匯入檔案後，輸入條件查詢'''
-                NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
-                NUMBERorISBN = NUMBERorISBN.upper()
-            
-                '''> STEP.3 自動分析~BOOM!!'''
-                # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
+            @st.cache_data(ttl=3600)  # 設定生存時間 (TTL) 為 3600 秒 (1 小時)
+            def long_running_function(file_path):
+                data = pd.read_excel(file_path,
+                                     sheet_name=sheet_name,         #@指定分頁
+                                     usecols=[0,1,2,3,5,7,9,10,11,12,13,14,15,16,20,21,22,23,24,37],  #@指定欄位
+                                     # nrows=10,                      #@指定列數
+                                     header = 0,                      #header = ?  >> 指定第?列為header(index)
+                                     engine='openpyxl')
+                return data
+            # Call the function with the uploaded file
+            if uploaded_file:
+                data = long_running_function(uploaded_file)
+            else:
+                st.warning("請上傳 Excel 文件。") 
+            # ------------------ 原始資料加工 ▼------------------------
+            #拆份季節&年分
+            data[["年", "季"]] = data["季"].str.split("Q", expand=True)
+            with st.expander("電子書收益總覽"):
+                view_option = st.selectbox("請選擇條件", ["歷年加總", "近3年"])
+    
+            # Display selected view
+            if view_option == "歷年加總":
+                total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
+                total_rank.index = range(1, len(total_rank) + 1)
+                st.dataframe(total_rank)
         
-                #篩選條件
-                Filter_contract_number = data["合約詳編"] == NUMBERorISBN
-                Filter_isbn = data["ISBN"] == NUMBERorISBN
-                result = data[Filter_contract_number | Filter_isbn]
-                
-                '''# 以下是篩選後的權利金情形(可供下載)'''
-                result.index = range(1,len(result)+1)
-                st.dataframe(result)
-                # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
-                '''# 以下是銷售情況統計'''
-                total = f"一、{NUMBERorISBN}銷售訂單件數共 : " + str(len(result)) + "(非title數)"
-                total 
-                total_money = f"二、{NUMBERorISBN}單位歷年電子書銷售單位(客戶)總數 : " + str(result["銷售單位"].nunique()) + "(個)"
-                total_money 
-                total_money = f"三、{NUMBERorISBN}單位歷年電子書內容收益總額 : " + str(result["電子書內容收益"].sum() ) + "(新台幣)"
-                total_money        
-                pd_income_peryear = result.groupby(by=['年'])['電子書內容收益'].sum().reset_index()
-                pd_income_peryear.index = range(1,len(pd_income_peryear)+1)
-                pd_income_peryear
-                # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
-                # --------------- 繪圖 ▼ 歷年收益(長條圖)-------------
-                import plotly.express as px
-                import pandas as pd
-                fig = px.bar(pd_income_peryear, x='年', y='電子書內容收益', title='【歷年】電子書內容收益')
-                # 調整 x 軸刻度為整數
-                fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
-                fig.update_xaxes(tickmode='linear')  # 使用線性刻度
-                fig.update_xaxes(tick0=0)  # 刻度的起始點
-                fig.update_xaxes(dtick=1)  # 刻度的間距
+            elif view_option == "近3年":
+                # Assuming '年' is the column representing years
+                recent_3years_data = data[data['年'].isin(data['年'].unique()[-3:])]
+                recent_3years_rank = recent_3years_data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(
+                    by='電子書內容收益', ascending=False)
+                recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
+                st.dataframe(recent_3years_rank)  
+            # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
+            '''> STEP.1-2 總攬 ↓ '''
         
-                # 在 Streamlit 中显示 Plotly 图表
-                st.plotly_chart(fig)
-                # --------------- 繪圖 ▼ 銷售市場-地區(pie圖)-------------
-                # 按銷售地區分组并计算權利金总和
-                x = result.groupby(by=['銷售地區'])['電子書內容收益'].sum().reset_index()
-                fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='【銷售市場】-海內/外收益佔比', 
-                             hover_data=['電子書內容收益'],
-                             )
-                fig.update_layout(height=500, width=700)
-                st.plotly_chart(fig)
-                # --------------- 繪圖 ▼ 銷售客源前五(長條圖)-------------
-                import plotly.express as px
-                import pandas as pd
-                x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
-                # 計算總額
-                total_sales = result['電子書內容收益'].sum()
-                # 計算各單位銷售佔總額的比例
-                x['百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
-                fig = px.bar(x, x='銷售單位', y='電子書內容收益',text='百分比', title='【銷售平台】排名前五')
-                # 在 Streamlit 中显示 Plotly 图表
-                st.plotly_chart(fig)
-                x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
-                # --------------- 繪圖 ▼ 【出版品出版年】銷售收益前五(長條圖)-------------
-                import plotly.express as px
-                import pandas as pd
-                total_sales = result['電子書內容收益'].sum()
-                x = result
-                x['出版年'] = result['出版年'].replace('\s', '', regex=True)  # 去除所有空格
-                x = result.groupby(by=['出版年'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
-                # 計算各單位銷售佔總額的比例
-                x['出版年收益百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
-                fig = px.bar(x, x='出版年', y='電子書內容收益',text='出版年收益百分比', title='【出版品出版年】銷售收益前五')
-                fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
-                fig.update_xaxes(tickmode='linear')  # 使用線性刻度
-                fig.update_xaxes(tick0=0)  # 刻度的起始點
-                fig.update_xaxes(dtick=1)  # 刻度的間距
+                    
+            '''> STEP.2 匯入檔案後，輸入條件查詢'''
+            NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
+            NUMBERorISBN = NUMBERorISBN.upper()
         
-                # 在 Streamlit 中显示 Plotly 图表
-                st.plotly_chart(fig) 
+            '''> STEP.3 自動分析~BOOM!!'''
+            # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
+    
+            #篩選條件
+            Filter_contract_number = data["合約詳編"] == NUMBERorISBN
+            Filter_isbn = data["ISBN"] == NUMBERorISBN
+            result = data[Filter_contract_number | Filter_isbn]
+            
+            '''# 以下是篩選後的權利金情形(可供下載)'''
+            result.index = range(1,len(result)+1)
+            st.dataframe(result)
+            # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
+            '''# 以下是銷售情況統計'''
+            total = f"一、{NUMBERorISBN}銷售訂單件數共 : " + str(len(result)) + "(非title數)"
+            total 
+            total_money = f"二、{NUMBERorISBN}單位歷年電子書銷售單位(客戶)總數 : " + str(result["銷售單位"].nunique()) + "(個)"
+            total_money 
+            total_money = f"三、{NUMBERorISBN}單位歷年電子書內容收益總額 : " + str(result["電子書內容收益"].sum() ) + "(新台幣)"
+            total_money        
+            pd_income_peryear = result.groupby(by=['年'])['電子書內容收益'].sum().reset_index()
+            pd_income_peryear.index = range(1,len(pd_income_peryear)+1)
+            pd_income_peryear
+            # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
+            # --------------- 繪圖 ▼ 歷年收益(長條圖)-------------
+            import plotly.express as px
+            import pandas as pd
+            fig = px.bar(pd_income_peryear, x='年', y='電子書內容收益', title='【歷年】電子書內容收益')
+            # 調整 x 軸刻度為整數
+            fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
+            fig.update_xaxes(tickmode='linear')  # 使用線性刻度
+            fig.update_xaxes(tick0=0)  # 刻度的起始點
+            fig.update_xaxes(dtick=1)  # 刻度的間距
+    
+            # 在 Streamlit 中显示 Plotly 图表
+            st.plotly_chart(fig)
+            # --------------- 繪圖 ▼ 銷售市場-地區(pie圖)-------------
+            # 按銷售地區分组并计算權利金总和
+            x = result.groupby(by=['銷售地區'])['電子書內容收益'].sum().reset_index()
+            fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='【銷售市場】-海內/外收益佔比', 
+                         hover_data=['電子書內容收益'],
+                         )
+            fig.update_layout(height=500, width=700)
+            st.plotly_chart(fig)
+            # --------------- 繪圖 ▼ 銷售客源前五(長條圖)-------------
+            import plotly.express as px
+            import pandas as pd
+            x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
+            # 計算總額
+            total_sales = result['電子書內容收益'].sum()
+            # 計算各單位銷售佔總額的比例
+            x['百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
+            fig = px.bar(x, x='銷售單位', y='電子書內容收益',text='百分比', title='【銷售平台】排名前五')
+            # 在 Streamlit 中显示 Plotly 图表
+            st.plotly_chart(fig)
+            x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
+            # --------------- 繪圖 ▼ 【出版品出版年】銷售收益前五(長條圖)-------------
+            import plotly.express as px
+            import pandas as pd
+            total_sales = result['電子書內容收益'].sum()
+            x = result
+            x['出版年'] = result['出版年'].replace('\s', '', regex=True)  # 去除所有空格
+            x = result.groupby(by=['出版年'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
+            # 計算各單位銷售佔總額的比例
+            x['出版年收益百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
+            fig = px.bar(x, x='出版年', y='電子書內容收益',text='出版年收益百分比', title='【出版品出版年】銷售收益前五')
+            fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
+            fig.update_xaxes(tickmode='linear')  # 使用線性刻度
+            fig.update_xaxes(tick0=0)  # 刻度的起始點
+            fig.update_xaxes(dtick=1)  # 刻度的間距
+    
+            # 在 Streamlit 中显示 Plotly 图表
+            st.plotly_chart(fig) 
     else:
         st.warning("密碼錯誤。")
 else:
