@@ -53,6 +53,8 @@ if user_input:
                 # ------------------ 原始資料加工 ▼------------------------
                 #拆份季節&年分
                 data[["年", "季"]] = data["季"].str.split("Q", expand=True)
+            else:
+                st.warning("請上傳 Excel 文件。")    
             # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
             with st.expander("電子書收益總覽"):
                 view_option = st.selectbox("請選擇條件", ["歷年加總", "近3年"])
@@ -147,9 +149,6 @@ if user_input:
 
             # 在 Streamlit 中显示 Plotly 图表
             st.plotly_chart(fig)
-
-        else:
-            st.warning("請上傳 Excel 文件。")
     else:
         st.warning("密碼錯誤。")
 else:
