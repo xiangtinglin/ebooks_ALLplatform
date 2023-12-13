@@ -20,15 +20,31 @@ st.title("權利金銷售情況")
 user_input = st.text_input("請輸入密碼:", type="password")
 
 if user_input:    
+    user_input_placeholder = st.empty()
+user_input = user_input_placeholder.text_input("請輸入密碼:", type="password")
+
+if user_input:    
     # 驗證密碼
     if user_input in passwords_and_names:
         # 獲取對應的名字
         user_name = passwords_and_names[user_input]
         success_message = st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
+        
+        # Empty the entire user input block
+        user_input_placeholder.empty()
+
         import time
         time.sleep(0.9)
         success_message.empty()
-        user_input.empty()
+    # 驗證密碼
+    # if user_input in passwords_and_names:
+    #     # 獲取對應的名字
+    #     user_name = passwords_and_names[user_input]
+    #     success_message = st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
+    #     import time
+    #     time.sleep(0.9)
+    #     success_message.empty()
+    #     user_input.empty()
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
         # ------------------ 上傳檔案 ▼------------------------
         '''> STEP.1 匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓ '''
