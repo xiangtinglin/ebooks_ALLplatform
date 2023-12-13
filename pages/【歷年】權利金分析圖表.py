@@ -15,12 +15,6 @@ passwords_and_names = {
 }
 #標題 
 st.title("權利金銷售情況")
-import streamlit as st
-
-passwords_and_names = {"your_password": "Your Name"}
-
-user_input_placeholder = st.empty()
-user_input = user_input_placeholder.text_input("請輸入密碼:", type="password")
 
 # 在首頁輸入密碼
 user_input = st.text_input("請輸入密碼:", type="password")
