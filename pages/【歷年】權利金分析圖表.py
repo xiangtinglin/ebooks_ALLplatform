@@ -147,6 +147,8 @@ if user_input:
             
                     # 在 Streamlit 中显示 Plotly 图表
                     st.plotly_chart(fig)
+            else:
+                st.warning("請輸入合約詳編") 
                 
         else:
             st.warning("請上傳 Excel 文件。") 
