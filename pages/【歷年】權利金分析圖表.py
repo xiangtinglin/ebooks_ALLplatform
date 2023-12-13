@@ -51,16 +51,16 @@ if user_input:
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
             # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
             # 中標題
-            st.markdown("# 所有單位排名列表(請選擇條件)")
-            view_option = st.selectbox("選擇檢視", ["無(預設)", "檢視各單位銷售排名(歷年加總)", "檢視近3年內容收益排名"])
+            st.markdown("# 內容收益排名列表")
+            view_option = st.selectbox("請選擇條件", ["無(預設)", "檢視各單位銷售排名(歷年加總)", "檢視近3年內容收益排名"])
 
             # Display selected view
-            if view_option == "檢視各單位銷售排名(歷年加總)":
+            if view_option == "歷年加總":
                 total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
                 total_rank.index = range(1, len(total_rank) + 1)
                 st.dataframe(total_rank)
         
-            elif view_option == "檢視近3年內容收益排名":
+            elif view_option == "近3年":
                 # Assuming '年' is the column representing years
                 recent_3years_data = data[data['年'].isin(data['年'].unique()[-3:])]
                 recent_3years_rank = recent_3years_data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(
