@@ -147,9 +147,10 @@ if user_input:
                 fig.update_xaxes(dtick=1)  # 刻度的間距
         
                 # 在 Streamlit 中显示 Plotly 图表
-                st.plotly_chart(fig) 
-             else:
-                 st.warning("請上傳 Excel 文件。") 
+                st.plotly_chart(fig)
+                
+            else:
+                st.warning("請上傳 Excel 文件。") 
     else:
         st.warning("密碼錯誤。")
 else:
