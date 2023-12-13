@@ -20,10 +20,6 @@ st.title("權利金銷售情況")
 user_input = st.text_input("請輸入密碼:", type="password")
 
 if user_input:    
-    user_input_placeholder = st.empty()
-user_input = user_input_placeholder.text_input("請輸入密碼:", type="password")
-
-if user_input:    
     # 驗證密碼
     if user_input in passwords_and_names:
         # 獲取對應的名字
