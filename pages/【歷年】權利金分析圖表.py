@@ -51,7 +51,7 @@ if user_input:
             # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
             # 中標題
             if st.button("展開"):
-            view_option = st.selectbox("請選擇條件", ["無(預設)", "歷年加總", "近3年"])
+                view_option = st.selectbox("請選擇條件", ["無(預設)", "歷年加總", "近3年"])
     
                 # Display selected view
                 if view_option == "歷年加總":
