@@ -53,12 +53,25 @@ if user_input:
             total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
             total_rank.index = range(1,len(total_rank)+1)
             total_rank
-            
+            '''檢視近3年內容收益排名'''
             # Assuming '年' is the column representing years
             recent_3years_data = data[data['年'].isin(data['年'].unique()[-3:])]
             recent_3years_rank = recent_3years_data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
             recent_3years_rank.index = range(1,len(recent_3years_rank)+1)
             recent_3years_rank
+
+            years_list = sorted(data['年'].unique(), reverse=True)  # Assuming '年' is the column representing years
+         
+            selected_years = st.selectbox("Select the number of recent years to view:", [f"近{i}年" for i in range(1, 11)], index=2)
+            
+            # Calculate the selected years data
+            selected_years_data = data[data['年'].isin(years_list[: int(selected_years[1])] if selected_years != "今年" else [years_list[0]])]
+            selected_years_rank = selected_years_data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
+            selected_years_rank.index = range(1, len(selected_years_rank) + 1)
+            
+            # Display the result
+            st.write(f"檢視{selected_years}內容收益排名")
+            st.write(selected_years_rank)
             
             '''> STEP.2 匯入檔案後，輸入條件查詢'''
             NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
