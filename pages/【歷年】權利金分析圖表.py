@@ -24,13 +24,14 @@ if user_input:
         # 獲取對應的名字
         user_name = passwords_and_names[user_input]
         st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
-        
+# ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
+        # ------------------ 上傳檔案 ▼------------------------
         '''僅第一次載入大量數據需要數秒，之後查詢會很快^^'''
         '''> STEP.1 匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓ '''
         uploaded_file = st.file_uploader("上傳Excel文件", type=["xlsx"])
- # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
+
         if uploaded_file:
-                    
+        # ------------------ 暫存函式 ▼------------------------
             import pandas as pd
             sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
         
@@ -43,13 +44,14 @@ if user_input:
                                      header = 0,                      #header = ?  >> 指定第?列為header(index)
                                      engine='openpyxl')
                 return data
-        
             # Call the function with the uploaded file
             data = long_running_function(uploaded_file)
-            
+            # ------------------ 原始資料加工 ▼------------------------
             #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
-
+            # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
+            # 中標題
+            st.markdown("# 選擇排名檢視")
             # Create a dropdown menu for the user to select the ranking view
             selected_ranking_view = st.selectbox("選擇排名檢視", ["檢視各單位銷售排名(歷年加總)", "檢視近3年內容收益排名"])
             
