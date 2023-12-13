@@ -75,7 +75,7 @@ if user_input:
             NUMBERorISBN = NUMBERorISBN.upper()
         
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
-            if NUMBERorISBN:
+            if NUMBERorISBN in data["合約詳編"]:
                 '''> STEP.3 自動分析~BOOM!!'''
                 with st.expander("自動分析~BOOM!!"):
                     #篩選條件
@@ -148,7 +148,7 @@ if user_input:
                     # 在 Streamlit 中显示 Plotly 图表
                     st.plotly_chart(fig)
             else:
-                st.warning("請輸入合約詳編") 
+                st.warning("請輸入正確合約詳編") 
                 
         else:
             st.warning("請上傳 Excel 文件。") 
