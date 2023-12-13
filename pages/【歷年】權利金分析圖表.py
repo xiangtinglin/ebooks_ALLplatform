@@ -25,7 +25,15 @@ if user_input:
         user_name = passwords_and_names[user_input]
         if st.success:
             st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
-            st.empty()
+            hide_code = """
+            <script>
+                var code_cells = document.querySelectorAll('.st-cc');
+                code_cells.forEach(function(cell) {
+                    cell.style.display = 'none';
+                });
+            </script>
+            """
+            st.markdown(hide_code, unsafe_allow_html=True)
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
             # ------------------ 上傳檔案 ▼------------------------
             '''僅第一次載入大量數據需要數秒，之後查詢會很快^^'''
