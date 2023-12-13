@@ -47,6 +47,8 @@ if user_input:
             # Call the function with the uploaded file
             data = long_running_function(uploaded_file)
             
+            #拆份季節&年分
+            data[["年", "季"]] = data["季"].str.split("Q", expand=True)
             '''檢視各單位銷售排名(歷年加總)'''
             total_rank = data.groupby(by=['單位名稱'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
             total_rank.index = range(1,len(total_rank)+1)
@@ -63,8 +65,7 @@ if user_input:
         
             '''> STEP.3 自動分析~BOOM!!'''
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
-            #拆份季節&年分
-            data[["年", "季"]] = data["季"].str.split("Q", expand=True)
+
             #篩選條件
             Filter_contract_number = data["合約詳編"] == NUMBERorISBN
             Filter_isbn = data["ISBN"] == NUMBERorISBN
