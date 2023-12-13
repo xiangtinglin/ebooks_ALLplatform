@@ -50,8 +50,8 @@ if user_input:
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
             # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
             # 中標題
-            st.markdown("# 內容收益排名列表")
-            view_option = st.selectbox("請選擇條件", ["無(預設)", "檢視各單位銷售排名(歷年加總)", "檢視近3年內容收益排名"])
+            st.markdown("# 各單位內容收益排名")
+            view_option = st.selectbox("請選擇條件", ["無(預設)", "歷年加總", "近3年"])
 
             # Display selected view
             if view_option == "歷年加總":
