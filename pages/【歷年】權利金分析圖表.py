@@ -38,25 +38,25 @@ if user_input:
         with st.expander("上傳Excel文件"):
             uploaded_file = st.file_uploader("上傳Excel文件(僅第一次載入大量數據需要數秒，之後查詢會很快^^)", type=["xlsx"])
 
-        if uploaded_file:
-        # ------------------ 暫存函式 ▼------------------------
-            import pandas as pd
-            sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
-        
-            @st.cache_data(ttl=3600)  # 設定生存時間 (TTL) 為 3600 秒 (1 小時)
-            def long_running_function(file_path):
-                data = pd.read_excel(file_path,
-                                     sheet_name=sheet_name,         #@指定分頁
-                                     usecols=[0,1,2,3,5,7,9,10,11,12,13,14,15,16,20,21,22,23,24,37],  #@指定欄位
-                                     # nrows=10,                      #@指定列數
-                                     header = 0,                      #header = ?  >> 指定第?列為header(index)
-                                     engine='openpyxl')
-                return data
-            # Call the function with the uploaded file
-            data = long_running_function(uploaded_file)
-            # ------------------ 原始資料加工 ▼------------------------
-            #拆份季節&年分
-            data[["年", "季"]] = data["季"].str.split("Q", expand=True)
+            if uploaded_file:
+            # ------------------ 暫存函式 ▼------------------------
+                import pandas as pd
+                sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
+            
+                @st.cache_data(ttl=3600)  # 設定生存時間 (TTL) 為 3600 秒 (1 小時)
+                def long_running_function(file_path):
+                    data = pd.read_excel(file_path,
+                                         sheet_name=sheet_name,         #@指定分頁
+                                         usecols=[0,1,2,3,5,7,9,10,11,12,13,14,15,16,20,21,22,23,24,37],  #@指定欄位
+                                         # nrows=10,                      #@指定列數
+                                         header = 0,                      #header = ?  >> 指定第?列為header(index)
+                                         engine='openpyxl')
+                    return data
+                # Call the function with the uploaded file
+                data = long_running_function(uploaded_file)
+                # ------------------ 原始資料加工 ▼------------------------
+                #拆份季節&年分
+                data[["年", "季"]] = data["季"].str.split("Q", expand=True)
             # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
             with st.expander("電子書收益總覽"):
                 view_option = st.selectbox("請選擇條件", ["歷年加總", "近3年"])
