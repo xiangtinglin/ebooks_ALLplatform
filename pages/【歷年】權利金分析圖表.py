@@ -52,11 +52,9 @@ if user_input:
             # ------------------------------------- 【功能】第一區 ▼-------------------------------------------
             # 中標題
             st.markdown("# 選擇排名檢視")
-            # Create a dropdown menu for the user to select the ranking view
-            selected_ranking_view = st.selectbox("下拉式選單", ["檢視各單位銷售排名(歷年加總)", "檢視近3年內容收益排名"])
             
             # Create a dropdown menu for the user to select the ranking view
-            selected_ranking_view = st.selectbox("選擇排名檢視", ["檢視各單位銷售排名(歷年加總)", "檢視近3年內容收益排名"])
+            selected_ranking_view = st.selectbox("下拉式選單", ["檢視各單位銷售排名(歷年加總)", "檢視近3年內容收益排名"])
             
             # Display the selected ranking view
             if selected_ranking_view == "檢視各單位銷售排名(歷年加總)":
