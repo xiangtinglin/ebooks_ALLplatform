@@ -86,14 +86,14 @@ if user_input:
                     Filter_isbn = data["ISBN"] == NUMBERorISBN
                     result = data[Filter_contract_number | Filter_isbn]
                     
-                    # -----'''# 以下是篩選後的權利金情形(可供下載)'''------
-                    styled_text = f'<span style="color:blue; font-size:20px;"> # 一、以下是篩選後的權利金情形(可供下載) </span>'
+                    # -----------------------------'''# 以下是篩選後的權利金情形(可供下載)'''--------------------------------------
+                    styled_text = f'<span style="color:blue; font-size:20px;"> 【一、以下是篩選後的權利金情形(可供下載)】 </span>'
                     st.markdown(styled_text, unsafe_allow_html=True)
                     result.index = range(1,len(result)+1)
                     st.dataframe(result)
-                    # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
+                    # -------------------------- 重要資訊統計 ▼---------------------------------
                     #------'''# 以下是銷售情況統計'''------
-                    styled_text = f'<span style="color:blue; font-size:20px;"> # 二、以下是銷售情況統計 </span>'
+                    styled_text = f'<span style="color:blue; font-size:20px;"> 【二、以下是銷售情況統計】 </span>'
                     st.markdown(styled_text, unsafe_allow_html=True)
                     total = f"(一){NUMBERorISBN}銷售訂單件數共 : " + str(len(result)) + "(非title數)"
                     total 
@@ -106,7 +106,7 @@ if user_input:
                     pd_income_peryear
                     # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
                     # --------------- 繪圖 ▼ 歷年收益(長條圖)-------------
-                    styled_text = f'<span style="color:blue; font-size:20px;"> # 四、開始繪圖 </span>'
+                    styled_text = f'<span style="color:blue; font-size:20px;"> 【三、開始繪圖】 </span>'
                     st.markdown(styled_text, unsafe_allow_html=True)
                     import plotly.express as px
                     import pandas as pd
