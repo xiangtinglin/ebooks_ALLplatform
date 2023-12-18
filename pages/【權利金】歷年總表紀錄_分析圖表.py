@@ -53,6 +53,7 @@ if user_input:
             #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
             '''> #STEP.1-2 總覽 ↓ '''
+            st.markdown('''**> STEP.1 匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓**''', unsafe_allow_html=True)
             with st.expander("電子書收益總覽"):
                 view_option = st.selectbox("請選擇條件", ["歷年加總", "近3年"])
     
