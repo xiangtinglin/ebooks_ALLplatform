@@ -53,7 +53,8 @@ if user_input:
             # ------------------ 原始資料加工 ▼------------------------
             #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
-            '''> #STEP.1-2 電子書收益總覽 ↓ '''
+            # ------------------ ▼【功能】第1-2區 ｜STEP.1 _電子書收益總覽 ↓  ▼------------------------
+            st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.1-2 _電子書收益總覽 ↓</span>', unsafe_allow_html=True)
             with st.expander("請選擇條件"):
                 view_option = st.selectbox("", ["歷年加總", "近3年"])
     
