@@ -33,12 +33,12 @@ if user_input:
         st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜STEP.1 _匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓</span>', unsafe_allow_html=True)
         
         with st.expander( "請上傳Excel文件:【權利金】歷年總表紀錄 "):
-            uploaded_file = st.file_uploader("p.s.僅第一次載入大量數據需要數秒，之後查詢會很快^^", type=["xlsx"])
+            uploaded_file = st.file_uploader("p.s.第一次載入大量數據需要數秒，之後查詢會很快^^，匯入後檔案預設存效4小時", type=["xlsx"])
             # ------------------ 暫存函式 ▼------------------------
             import pandas as pd
             sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
         
-            @st.cache_data(ttl=3600)  # 設定生存時間 (TTL) 為 3600 秒 (1 小時)
+            @st.cache_data(ttl=3600*4)  # 設定生存時間 (TTL) 為 3600*4 秒 (4 小時)
             def long_running_function(file_path):
                 data = pd.read_excel(file_path,
                                      sheet_name=sheet_name,         #@指定分頁
