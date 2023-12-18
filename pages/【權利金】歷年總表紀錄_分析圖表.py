@@ -39,7 +39,7 @@ if user_input:
             sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
         
             @st.cache_data(ttl=3600*4)  # 設定生存時間 (TTL) 為 3600*4 秒 (4 小時)
-            def long_running_function(file_path):
+            def fist_loading(file_path):
                 data = pd.read_excel(file_path,
                                      sheet_name=sheet_name,         #@指定分頁
                                      usecols=[0,1,2,3,5,7,9,10,11,12,13,14,15,16,20,21,22,23,24,37],  #@指定欄位
@@ -49,7 +49,7 @@ if user_input:
                 return data
             # Call the function with the uploaded file
         if uploaded_file:
-            data = long_running_function(uploaded_file)
+            data = fist_loading(uploaded_file)
             # ------------------ 原始資料加工 ▼------------------------
             #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
