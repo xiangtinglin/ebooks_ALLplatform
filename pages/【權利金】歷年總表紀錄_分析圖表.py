@@ -31,11 +31,9 @@ if user_input:
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
         # ------------------ 上傳檔案 ▼------------------------
         st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜STEP.1 _匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓</span>', unsafe_allow_html=True)
-        expander_title = "請上傳Excel文件:【權利金】歷年總表紀錄 "
         
-        with st.expander(expander_title):
-            st.markdown('<span style="color:blue;">**請上傳Excel文件:【權利金】歷年總表紀錄**</span>', unsafe_allow_html=True)
-            uploaded_file = st.file_uploader("p.s.僅第一次載入大量數據需要數秒，之後查詢會很快^^", type=["xlsx"])
+        with st.expander( "請上傳Excel文件:【權利金】歷年總表紀錄 "):
+            uploaded_file = st.file_uploader('<span style="color:blue;">p.s.僅第一次載入大量數據需要數秒，之後查詢會很快^^</span>', type=["xlsx"], unsafe_allow_html=True)
             # ------------------ 暫存函式 ▼------------------------
             import pandas as pd
             sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
