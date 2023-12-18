@@ -135,7 +135,7 @@ if user_input:
                     total_sales = result['電子書內容收益'].sum()
                     # 計算各單位銷售佔總額的比例
                     x['百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
-                    fig = px.bar(x, x='銷售單位', y='電子書內容收益',text='百分比', title='【銷售平台】排名前五')
+                    fig = px.bar(x, x='銷售單位', y='電子書內容收益',text='百分比', title='【銷售單位】排名前五')
                     # 在 Streamlit 中显示 Plotly 图表
                     st.plotly_chart(fig)
                     x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
