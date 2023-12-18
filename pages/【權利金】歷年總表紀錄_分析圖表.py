@@ -29,7 +29,7 @@ if user_input:
         time.sleep(0.9)
         success_message.empty()
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
-        # ------------------ 上傳檔案 ▼------------------------
+        # ------------------ ▼｜STEP.1 _匯入檔案 ▼------------------------
         st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜STEP.1 _匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓</span>', unsafe_allow_html=True)
         
         with st.expander( "請上傳Excel文件:【權利金】歷年總表紀錄 "):
@@ -70,15 +70,16 @@ if user_input:
                         by='電子書內容收益', ascending=False)
                     recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
                     st.dataframe(recent_3years_rank)  
-            # ------------------------------------- 【功能】第一區 ▼-------------------------------------------                    
-            '''> #STEP.2 匯入檔案後，輸入條件查詢'''
+            # ------------------------------------- 【功能】第一區_STEP.2 匯入檔案後，輸入條件查詢 ▼-------------------------                    
+            st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.2 _匯入檔案後，輸入條件查詢 ↓</span>', unsafe_allow_html=True)
             NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
             NUMBERorISBN = NUMBERorISBN.upper()
         
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
+            STEP.3 自動分析~BOOM!!
             if NUMBERorISBN :
-                '''> STEP.3 自動分析~BOOM!!'''
-                with st.expander("自動分析~BOOM!!"):
+                st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.3 _自動分析~BOOM!! ↓</span>', unsafe_allow_html=True)
+                with st.expander("｜STEP.2 _的條件會自動代入，拋出結果"):
                     #篩選條件
                     Filter_contract_number = data["合約詳編"] == NUMBERorISBN
                     Filter_isbn = data["ISBN"] == NUMBERorISBN
