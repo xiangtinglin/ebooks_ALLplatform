@@ -30,7 +30,7 @@ if user_input:
         success_message.empty()
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
         # ------------------ 上傳檔案 ▼------------------------
-        '''> STEP.1 匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓ '''
+        st.markdown('<span style="color:red; font-weight:bold;">> STEP.1 匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓</span>', unsafe_allow_html=True)
         with st.expander("請上傳Excel文件:【權利金】歷年總表紀錄 "):
             uploaded_file = st.file_uploader("僅第一次載入大量數據需要數秒，之後查詢會很快^^", type=["xlsx"])
             # ------------------ 暫存函式 ▼------------------------
@@ -53,7 +53,6 @@ if user_input:
             #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
             '''> #STEP.1-2 總覽 ↓ '''
-            st.markdown('''**> STEP.1 匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓**''', unsafe_allow_html=True)
             with st.expander("電子書收益總覽"):
                 view_option = st.selectbox("請選擇條件", ["歷年加總", "近3年"])
     
