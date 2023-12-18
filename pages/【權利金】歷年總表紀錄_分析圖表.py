@@ -52,7 +52,7 @@ if user_input:
             # ------------------ 原始資料加工 ▼------------------------
             #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
-            '''> STEP.1-2 總攬 ↓ '''
+            '''> #STEP.1-2 總覽 ↓ '''
             with st.expander("電子書收益總覽"):
                 view_option = st.selectbox("請選擇條件", ["歷年加總", "近3年"])
     
@@ -70,7 +70,7 @@ if user_input:
                     recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
                     st.dataframe(recent_3years_rank)  
             # ------------------------------------- 【功能】第一區 ▼-------------------------------------------                    
-            '''> STEP.2 匯入檔案後，輸入條件查詢'''
+            '''> #STEP.2 匯入檔案後，輸入條件查詢'''
             NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
             NUMBERorISBN = NUMBERorISBN.upper()
         
