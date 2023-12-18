@@ -53,8 +53,8 @@ if user_input:
             # ------------------ 原始資料加工 ▼------------------------
             #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
-            # ------------------ ▼【功能】第1-2區 ｜STEP.1 _電子書收益總覽 ↓  ▼------------------------
-            st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.1-2 _電子書收益總覽 ↓</span>', unsafe_allow_html=True)
+            # ------------------ ▼【功能】第2區 ｜STEP.2 _電子書收益總覽 ↓  ▼------------------------
+            st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.2 _電子書收益總覽 ↓</span>', unsafe_allow_html=True)
             with st.expander("請選擇條件"):
                 view_option = st.selectbox("", ["歷年加總", "近3年"])
     
@@ -71,16 +71,16 @@ if user_input:
                         by='電子書內容收益', ascending=False)
                     recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
                     st.dataframe(recent_3years_rank)  
-            # ------------------------------------- 【功能】第二區_STEP.2 匯入檔案後，輸入條件查詢 ▼-------------------------                    
-            st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.2 _匯入檔案後，輸入條件查詢 ↓</span>', unsafe_allow_html=True)
+            # ------------------------------------- 【功能】第3區_STEP.3 匯入檔案後，輸入條件查詢 ▼-------------------------                    
+            st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.3 _匯入檔案後，輸入條件查詢 ↓</span>', unsafe_allow_html=True)
             NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
             NUMBERorISBN = NUMBERorISBN.upper()
         
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
-            # ---------------- ▼-【功能】第三區 STEP.3 自動分析~BOOM!! ▼-------------------
+            # ---------------- ▼-【功能】第4區 STEP.4 自動分析~BOOM!! ▼-------------------
             if NUMBERorISBN :
-                st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.3 _自動分析~BOOM!! ↓</span>', unsafe_allow_html=True)
-                with st.expander("｜STEP.2 _的條件會自動代入，拋出結果"):
+                st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.4 _自動分析~BOOM!! ↓</span>', unsafe_allow_html=True)
+                with st.expander("｜STEP.3 _的條件會自動代入，拋出結果"):
                     #篩選條件
                     Filter_contract_number = data["合約詳編"] == NUMBERorISBN
                     Filter_isbn = data["ISBN"] == NUMBERorISBN
