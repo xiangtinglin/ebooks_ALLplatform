@@ -31,10 +31,8 @@ if user_input:
         time.sleep(0.9)
         success_message.empty()
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
-        # ------------------ ▼【功能】第一區 ｜STEP.1 _匯入檔案 ▼------------------------
-        uploaded_file = st.file_uploader("上傳Excel文件", type=["xlsx"])
+        # ------------------ ▼【功能】第一區 ｜STEP.1 _匯入檔案 ▼------------------------   
         st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜STEP.1 _匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓</span>', unsafe_allow_html=True)
-        
         with st.expander( "請上傳Excel文件:(NEW)總經銷書單"):
             uploaded_file = st.file_uploader("p.s.第一次載入大量數據需要數秒，之後查詢會很快^^，匯入後檔案預設存效4小時", type=["xlsx"])
             # ------------------ 暫存函式 ▼------------------------
