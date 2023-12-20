@@ -48,11 +48,24 @@ if user_input:
                                      # header = 3,                      #header = ?  >> 指定第?列為header(index)
                                      engine='openpyxl')
                 return data
-        
-            # Call the function with the uploaded file
-            data = fist_loading(uploaded_file)
             
         if uploaded_file:
+            data = fist_loading(uploaded_file)
+                      # 指定要查找和替换的内容
+            replacement_dict = {
+                "R": "已提報",
+                "W": "近期準備提報",
+                "O": "O已上架",
+                "P": "無法提報、下架",
+                "P1": "此電子書已無授權",
+                "P2": "不符平台提報規格",
+                "P3": "重複上架(版權衝突)",
+                "P4": "問題件"
+                # 添加更多的查找和替换项
+            }
+            # 使用pandas的replace函数进行替换
+            data.replace(replacement_dict, inplace=True) 
+            
             '''> STEP.2 匯入檔案後，輸入條件查詢'''
             NUMBERorISBN = st.text_input("用合約詳編/ISBN查詢")
             NUMBERorISBN = NUMBERorISBN.upper()
