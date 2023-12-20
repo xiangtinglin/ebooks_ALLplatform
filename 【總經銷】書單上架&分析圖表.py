@@ -52,76 +52,76 @@ if user_input:
             # Call the function with the uploaded file
             data = fist_loading(uploaded_file)
         
-        if uploaded_file:
-            if NUMBERorISBN:
-                '''> STEP.2 匯入檔案後，輸入條件查詢'''
-                NUMBERorISBN = st.text_input("用合約詳編/ISBN查詢")
-                NUMBERorISBN = NUMBERorISBN.upper()
-            
-                '''> STEP.3 自動分析~BOOM!!'''
-
-                # 指定要查找和替换的内容
-                replacement_dict = {
-                    "R": "已提報",
-                    "W": "近期準備提報",
-                    "O": "O已上架",
-                    "P": "無法提報、下架",
-                    "P1": "此電子書已無授權",
-                    "P2": "不符平台提報規格",
-                    "P3": "重複上架(版權衝突)",
-                    "P4": "問題件"
-                    # 添加更多的查找和替换项
-                }
-                # 使用pandas的replace函数进行替换
-                data.replace(replacement_dict, inplace=True) 
-            
-                # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
-            
-                #篩選條件
-                Filter_contract_number = data["合約編號"] == NUMBERorISBN
-                Filter_isbn = data["ISBN"] == NUMBERorISBN
-                result = data[Filter_contract_number | Filter_isbn]
-                # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
-                '''*以下是書單上架情況統計'''
-                total = "總共建檔數:" + str(len(result))
-                total 
-                '''*以下是上進度架情況表(可供下載)'''
-                result.index = range(1,len(result)+1)
-                st.dataframe(result)
-                # #匯出檔案
-                # result.to_excel(r"C:\Users\User'''\.streamlit\輸出檔案\金尉.xlsx")  
-            
-                # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
-            
-                '''**開始繪圖(請耐心等候....但其實很快^^ XD)'''
-                #繪圖_顯示特殊字形
-                import matplotlib.pyplot as plt
-                plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
-                # Solve the issue with displaying Chinese characters
-                plt.rcParams['axes.unicode_minus'] = False
-            
-                # #新增欄位
-                # result.insert(0, column="佔比", value=1)
-                # result = result.groupby(by=['書名']).apply(lambda x:x[x.columns]).plot(
-                #     kind='pie', y="佔比")
-            
-                # plt.title('&#8203;``【oaicite:0】``&#8203;',color='r',size=18)
-                # plt.xlabel("(分類依據：)",color='gray',size=10)
-                # plt.ylabel("佔比(%)",color='blue')
-                # plt.legend(loc='lower right')
-                # plt.show()
-                ## 導入套件
-                import time
-                import numpy as np
-                import pandas as pd
-                chart_data = pd.DataFrame(
-                    np.random.randn(20, 3),
-                    columns=['a', 'b', 'c'])
-                st.line_chart(chart_data)
+            if uploaded_file:
+                if NUMBERorISBN:
+                    '''> STEP.2 匯入檔案後，輸入條件查詢'''
+                    NUMBERorISBN = st.text_input("用合約詳編/ISBN查詢")
+                    NUMBERorISBN = NUMBERorISBN.upper()
+                
+                    '''> STEP.3 自動分析~BOOM!!'''
+    
+                    # 指定要查找和替换的内容
+                    replacement_dict = {
+                        "R": "已提報",
+                        "W": "近期準備提報",
+                        "O": "O已上架",
+                        "P": "無法提報、下架",
+                        "P1": "此電子書已無授權",
+                        "P2": "不符平台提報規格",
+                        "P3": "重複上架(版權衝突)",
+                        "P4": "問題件"
+                        # 添加更多的查找和替换项
+                    }
+                    # 使用pandas的replace函数进行替换
+                    data.replace(replacement_dict, inplace=True) 
+                
+                    # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
+                
+                    #篩選條件
+                    Filter_contract_number = data["合約編號"] == NUMBERorISBN
+                    Filter_isbn = data["ISBN"] == NUMBERorISBN
+                    result = data[Filter_contract_number | Filter_isbn]
+                    # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
+                    '''*以下是書單上架情況統計'''
+                    total = "總共建檔數:" + str(len(result))
+                    total 
+                    '''*以下是上進度架情況表(可供下載)'''
+                    result.index = range(1,len(result)+1)
+                    st.dataframe(result)
+                    # #匯出檔案
+                    # result.to_excel(r"C:\Users\User'''\.streamlit\輸出檔案\金尉.xlsx")  
+                
+                    # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
+                
+                    '''**開始繪圖(請耐心等候....但其實很快^^ XD)'''
+                    #繪圖_顯示特殊字形
+                    import matplotlib.pyplot as plt
+                    plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
+                    # Solve the issue with displaying Chinese characters
+                    plt.rcParams['axes.unicode_minus'] = False
+                
+                    # #新增欄位
+                    # result.insert(0, column="佔比", value=1)
+                    # result = result.groupby(by=['書名']).apply(lambda x:x[x.columns]).plot(
+                    #     kind='pie', y="佔比")
+                
+                    # plt.title('&#8203;``【oaicite:0】``&#8203;',color='r',size=18)
+                    # plt.xlabel("(分類依據：)",color='gray',size=10)
+                    # plt.ylabel("佔比(%)",color='blue')
+                    # plt.legend(loc='lower right')
+                    # plt.show()
+                    ## 導入套件
+                    import time
+                    import numpy as np
+                    import pandas as pd
+                    chart_data = pd.DataFrame(
+                        np.random.randn(20, 3),
+                        columns=['a', 'b', 'c'])
+                    st.line_chart(chart_data)
+                else:
+                    st.warning("請輸入合約詳編或isbn")
             else:
-                st.warning("請輸入合約詳編或isbn")
-        else:
-            st.warning("請上傳 Excel 文件。")
+                st.warning("請上傳 Excel 文件。")
     else:
         st.warning("密碼錯誤。")
 else:
