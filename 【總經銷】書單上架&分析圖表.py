@@ -51,15 +51,13 @@ if user_input:
         
             # Call the function with the uploaded file
             data = fist_loading(uploaded_file)
-        
+            
+            '''> STEP.2 匯入檔案後，輸入條件查詢'''
+            NUMBERorISBN = st.text_input("用合約詳編/ISBN查詢")
+            NUMBERorISBN = NUMBERorISBN.upper()
             if uploaded_file:
                 if NUMBERorISBN:
-                    '''> STEP.2 匯入檔案後，輸入條件查詢'''
-                    NUMBERorISBN = st.text_input("用合約詳編/ISBN查詢")
-                    NUMBERorISBN = NUMBERorISBN.upper()
-                
                     '''> STEP.3 自動分析~BOOM!!'''
-    
                     # 指定要查找和替换的内容
                     replacement_dict = {
                         "R": "已提報",
