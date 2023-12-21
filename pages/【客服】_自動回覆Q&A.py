@@ -10,7 +10,8 @@ for para in reversed(conversation):
     st.sidebar.text(para)
 
 # 第二區-輸入框
-user_input = st.text_input("輸入框:")
+input_widget_id = "user_input"  # 添加唯一的ID
+user_input = st.text_input("輸入框:", key=input_widget_id)
 
 # 模擬等待0.05秒
 time.sleep(0.05)
@@ -21,9 +22,6 @@ default_responses = {
     "再見": "再見！歡迎隨時回來。",
     "感謝": "不客氣，有其他問題可以問我哦。"
 }
-
-# 第二區-輸入框
-user_input = st.text_input("輸入框:")
 
 # 推薦相關的預設關鍵字
 recommended_keywords = [key for key in default_responses.keys() if key in user_input]
