@@ -34,7 +34,6 @@ if user_input:
         for char in response:
             st.write(char, end="", key=None)
             time.sleep(0.05)
-        st.write("")  # 換行
 
 # 顯示區
 st.sidebar.markdown("## 對話段落")
