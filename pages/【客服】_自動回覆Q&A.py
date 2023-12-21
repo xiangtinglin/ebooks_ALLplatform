@@ -45,7 +45,7 @@ if user_input:
         for char in f"機器人: {response}":
             st.write(char, end='', key='char')
             time.sleep(0.05)
-        st.write("")  # 換行
+    st.write("")  # 換行
 
 # 模擬等待0.05秒
 time.sleep(0.05)
