@@ -1,38 +1,57 @@
 import streamlit as st
+import time
 
-# 儲存聊天紀錄的全域變數
-chat_history = []
-
-# 預設的關鍵字和回答
+# 設定預設回覆的關鍵字與答案
 default_responses = {
-    "你好": "哈囉！有什麼我可以幫助你的嗎？",
-    "天氣": "請問你想查詢哪個城市的天氣？",
-    # 在這裡添加更多的預設關鍵字和回答
+    "你好": "你好！有什麼我可以幫忙的嗎？",
+    "再見": "再見，歡迎隨時回來！",
+    "感謝": "不客氣，有其他問題歡迎問我。",
 }
 
-# Streamlit App
-st.title("自動回覆機器人")
+# 初始化對話紀錄
+conversation_history = []
 
-# 第一區-輸入框
-user_input = st.text_input("請輸入你的問題：")
-selected_keyword = st.selectbox("選擇相關的預設關鍵字：", list(default_responses.keys()))
+# Streamlit UI
+st.title("簡易自動回覆機器人")
 
-# 如果使用者輸入了問題
-if user_input:
-    # 將使用者的問題和回答加入聊天紀錄
-    chat_history.append({"user": user_input, "bot": default_responses.get(selected_keyword, "抱歉，我不太理解你的問題。")})
+# 第一區 - 顯示框
+st.markdown("### 第一區 - 顯示框")
 
-# 第二區-顯示框
-st.subheader("聊天紀錄")
+for interaction in conversation_history:
+    st.text(f"{interaction['user']}: {interaction['question']}")
+    st.text(f"機器人: {interaction['response']}")
+    st.markdown("---")
 
-# 顯示過去的提問和回答
-for chat in chat_history:
-    st.text(f"你: {chat['user']}")
-    st.text(f"機器人: {chat['bot']}")
-    st.text("------")
+# 第二區 - 輸入框
+st.markdown("### 第二區 - 輸入框")
 
-# 顯示最新的回答
-if user_input:
-    st.text(f"你: {user_input}")
-    st.text(f"機器人: {default_responses.get(selected_keyword, '抱歉，我不太理解你的問題。')}")
-    st.text("------")
+# 讓使用者輸入關鍵字
+user_input = st.text_input("輸入您的問題：")
+
+# 檢查預設回覆的關鍵字
+for keyword, response in default_responses.items():
+    if keyword in user_input:
+        st.text("機器人正在思考中...")
+        time.sleep(1)  # 模擬思考時間
+
+        # 逐字打印回覆
+        for char in response:
+            st.text("機器人: " + char)
+            time.sleep(0.05)
+
+        # 將對話紀錄添加到歷史
+        conversation_history.append({"user": "使用者", "question": user_input, "response": response})
+        break
+
+# 如果使用者沒有輸入，則顯示提示訊息
+if not user_input:
+    st.text("請輸入問題。")
+
+# 顯示最新的對話紀錄
+st.markdown("### 最新對話紀錄")
+if conversation_history:
+    latest_interaction = conversation_history[-1]
+    st.text(f"{latest_interaction['user']}: {latest_interaction['question']}")
+    st.text(f"機器人: {latest_interaction['response']}")
+else:
+    st.text("尚無對話紀錄。")
