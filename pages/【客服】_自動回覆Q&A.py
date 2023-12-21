@@ -1,43 +1,28 @@
 import streamlit as st
 
-# 定義預設的關鍵字和相應的回答
+# 定義預設的關鍵字和對應的答案
 default_responses = {
-    "供檔": "所需內容：",
-    "天氣": "目前天氣晴朗。",
-    "時間": "現在是下午3點。",
-    # 添加更多關鍵字和回答
+    "問候": "你好！歡迎使用自動回覆機器人。",
+    "工作": "我是一個自動回覆機器人，可以回答與特定關鍵字相關的問題。",
+    "天氣": "很抱歉，我目前無法提供天氣資訊。",
+    # 可以繼續添加更多的預設關鍵字和對應的答案
 }
 
 def get_default_response(user_input):
-    # 遍歷所有預設關鍵字，如果找到匹配的就返回相應的回答
     for keyword, response in default_responses.items():
         if keyword in user_input:
             return response
-    # 如果沒有匹配的關鍵字，返回默認回答
-    return "抱歉，我不太明白你說的是什麼。"
+    return "抱歉，我不明白你的問題。"
 
-# Streamlit 應用程式
-def main():
-    st.title("簡易自動回覆機器人")
+# Streamlit應用程式的開始
+st.title("自動回覆機器人")
 
-    # 用於記錄對話的列表
-    conversation_history = []
+# 對話框
+user_input = st.text_input("你想問什麼？")
 
-    # 獲取使用者輸入
-    user_input = st.text_input("輸入你的訊息:")
+# 顯示使用者輸入的對話
+st.write("你說：", user_input)
 
-    if st.button("發送"):
-        # 記錄使用者輸入到對話歷史
-        conversation_history.append(f"你: {user_input}")
-
-        # 獲取預設回覆
-        default_response = get_default_response(user_input)
-
-        # 記錄機器人回覆到對話歷史
-        conversation_history.append(f"機器人: {default_response}")
-
-    # 顯示對話歷史
-    st.text_area("對話歷史", value="\n".join(conversation_history), height=200)
-
-if __name__ == "__main__":
-    main()
+# 獲取並顯示回覆
+bot_response = get_default_response(user_input)
+st.write("機器人回答：", bot_response)
