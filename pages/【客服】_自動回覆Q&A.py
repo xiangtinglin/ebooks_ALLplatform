@@ -1,3 +1,5 @@
+import streamlit as st
+
 # 定義預設的關鍵字和對應的答案
 default_responses = {
     "問候": "你好！有什麼我可以幫助你的嗎？",
