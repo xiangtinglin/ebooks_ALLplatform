@@ -30,9 +30,9 @@ for key in default_responses:
 if user_input:
     conversation.append(f"使用者: {user_input}")
     if response:
-        st.write(f"機器人: ", end="")
+        st.write(f"機器人: ")
         for char in response:
-            st.write(char, end="", key=None)
+            st.write(char, key=None)
             time.sleep(0.05)
 
 # 顯示區
