@@ -1,28 +1,34 @@
 import streamlit as st
 
-# 定義預設的關鍵字和對應的答案
+# 預設的關鍵字和相應的回覆
 default_responses = {
-    "問候": "你好！歡迎使用自動回覆機器人。",
-    "工作": "我是一個自動回覆機器人，可以回答與特定關鍵字相關的問題。",
-    "天氣": "很抱歉，我目前無法提供天氣資訊。",
-    # 可以繼續添加更多的預設關鍵字和對應的答案
+    "chatgpt": "您好，我是ChatGPT。有什麼我可以幫助您的?",
+    "資訊": "您可以在這裡找到有關資訊的相關內容。",
+    # 在此添加更多的預設關鍵字和回覆
 }
 
 def get_default_response(user_input):
     for keyword, response in default_responses.items():
         if keyword in user_input:
             return response
-    return "抱歉，我不明白你的問題。"
+    return "抱歉，我無法理解您的輸入。"
 
 # Streamlit應用程式的開始
-st.title("自動回覆機器人")
+st.title("簡易自動回覆機器人")
 
-# 對話框
-user_input = st.text_input("你想問什麼？")
+# 對話視窗
+st.subheader("ChatGPT 聊天對話框")
+conversation = st.text_area("對話:", height=200, max_chars=500)
 
-# 顯示使用者輸入的對話
-st.write("你說：", user_input)
+# 使用者輸入
+user_input = st.text_input("輸入您的訊息:")
 
-# 獲取並顯示回覆
-bot_response = get_default_response(user_input)
-st.write("機器人回答：", bot_response)
+# 處理使用者輸入並回覆
+if st.button("發送"):
+    if user_input:
+        conversation += f"\n你: {user_input}"
+        response = get_default_response(user_input)
+        conversation += f"\nChatGPT: {response}"
+
+# 顯示對話視窗
+st.text_area("對話紀錄:", value=conversation, height=200, max_chars=500, key="output")
