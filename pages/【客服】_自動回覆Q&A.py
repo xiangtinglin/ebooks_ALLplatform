@@ -38,4 +38,4 @@ if user_input:
 # 顯示區
 st.sidebar.markdown("## 對話段落")
 for para in reversed(conversation):
-    st.sidebar.text(para)
+    st.sidebar.text()
