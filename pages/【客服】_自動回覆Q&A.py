@@ -1,52 +1,32 @@
 import streamlit as st
 import time
 
-# 初始化對話列表
-conversation = []
+# 初始化問答紀錄
+qa_history = []
 
-# 預設回覆字典
+# 預設關鍵字及相對應的回答
 default_responses = {
     "你好": "你好！有什麼我可以幫助你的嗎？",
-    "再見": "再見，歡迎下次再來！",
-    "感謝": "不客氣，有其他問題歡迎問我喔！"
+    "再見": "再見，歡迎隨時回來！",
+    "感謝": "不客氣，有其他問題歡迎問我。",
 }
 
-# 預設的關鍵字
-default_keywords = list(default_responses.keys())
-
-# Streamlit 介面配置
+# Streamlit UI
 st.title("自動回覆機器人")
 
-# 第一區 - 顯示框
-st.text_area("對話區域", value="\n".join(conversation), height=300, max_chars=None, key="conversation")
+# 第一區-顯示區
+st.subheader("提問&回覆紀錄")
+for entry in reversed(qa_history):
+    st.text(entry)
+    time.sleep(0.05 * len(entry))  # 每個字間隔0.05秒出現
 
-# 第二區 - 輸入框
-user_input = st.text_input("請輸入您的問題：")
+# 第二區-輸入框
+user_input = st.text_input("輸入你的問題：")
 
-# 推薦相關關鍵字
-recommended_keywords = [keyword for keyword in default_keywords if keyword in user_input]
-if recommended_keywords:
-    st.text("推薦關鍵字：" + ", ".join(recommended_keywords))
-
-# 模擬自動回覆
-for char in "正在思考中...":
-    st.text(char)
-    time.sleep(0.05)
-
-# 根據關鍵字給予預設答案
+# 檢查預設關鍵字
 for keyword, response in default_responses.items():
     if keyword in user_input:
-        reply = response
+        st.text(f"機器人: {response}")
+        qa_history.append(f"使用者: {user_input}")
+        qa_history.append(f"機器人: {response}")
         break
-else:
-    reply = "抱歉，我不太理解您的問題。"
-
-# 更新對話列表
-conversation.append(f"使用者：{user_input}")
-conversation.append(f"機器人：{reply}")
-
-# 顯示回覆
-st.text(reply)
-
-# 更新對話區域
-st.text_area("對話區域", value="\n".join(conversation), height=300, max_chars=None, key="conversation")
