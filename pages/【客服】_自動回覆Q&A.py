@@ -1,41 +1,36 @@
+# 引入相關套件
 import streamlit as st
 
 # 初始化對話列表
-conversation = []
+dialogue = []
 
-# 初始化預設的關鍵字和回覆
-default_responses = {
-    "你好": "你好！有什麼我可以幫忙的嗎？",
-    "天氣": "請問你想查詢哪個城市的天氣？",
-    "感謝": "不客氣，有其他問題歡迎隨時問我！"
-}
+# Streamlit UI 布局
+st.title("自動回覆機器人")
 
-# Streamlit 界面
-st.title("簡易自動回覆機器人")
+# 顯示對話段落
+for paragraph in reversed(dialogue):
+    st.text(paragraph)
 
-# 第一區-對話段落文字顯示區
-st.sidebar.title("對話段落")
-for c in conversation:
-    st.sidebar.text(c)
+# Streamlit UI 布局
+user_input = st.text_input("請輸入關鍵字：")
 
-# 第二區-輸入框
-user_input = st.text_input("輸入框")
-
-# 如果使用者輸入非空字串
+# 如果使用者有輸入文字
 if user_input:
-    # 將使用者輸入添加到對話列表
-    conversation.append(f"使用者: {user_input}")
+    # 推薦相關關鍵字
+    st.text("推薦關鍵字：預設1, 預設2, 預設3")
 
-    # 檢查預設的關鍵字
-    for keyword, response in default_responses.items():
-        if keyword in user_input:
-            # 將回覆添加到對話列表
-            conversation.append(f"機器人: {response}")
+    # 將使用者輸入的文字加入對話列表
+    dialogue.append(f"使用者：{user_input}")
+
+    # 根據不同的關鍵字給予預設答案
+    if "預設1" in user_input:
+        st.text("機器人：這是預設1的回覆。")
+    elif "預設2" in user_input:
+        st.text("機器人：這是預設2的回覆。")
+    elif "預設3" in user_input:
+        st.text("機器人：這是預設3的回覆。")
+    else:
+        st.text("機器人：抱歉，我不太了解您的問題。")
 
     # 清空輸入框
     st.text_input("")
-
-# 顯示對話段落文字
-st.sidebar.title("對話段落")
-for c in reversed(conversation):
-    st.sidebar.text(c)
