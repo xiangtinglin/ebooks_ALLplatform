@@ -159,7 +159,7 @@ if user_input:
                     # 在 Streamlit 中显示 Plotly 图表
                     st.plotly_chart(fig)
             else:
-                st.warning("請輸入正確合約詳編/ISBN/單位名稱查詢") 
+                st.warning("請輸入正確合約詳or簡編/ISBN/單位名稱查詢") 
                 
         else:
             st.warning("請上傳 Excel 文件。") 
