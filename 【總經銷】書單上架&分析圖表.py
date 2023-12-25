@@ -67,7 +67,7 @@ if user_input:
             data.replace(replacement_dict, inplace=True) 
             
             '''> STEP.2 匯入檔案後，輸入條件查詢'''
-            NBorISBNorBN = st.selectbox("用合約詳編/ISBN/書名查詢",data["書名"])
+            NBorISBNorBN = st.text_input("用合約'簡'編/ISBN/書名查詢")
             NBorISBNorBN = NBorISBNorBN.upper()
             if NBorISBNorBN:
 
@@ -91,7 +91,7 @@ if user_input:
             
                 #篩選條件
                 Filter_contract_number = data["合約編號"] == NBorISBNorBN
-                Filter_isbn = data["ISBN"] == NBorISBNorBN
+                Filter_isbn = data["ISBN"].str.contains(NBorISBNorBN)
                 Filter_BN = data["書名"].str.contains(NBorISBNorBN)
                 result = data[Filter_contract_number | Filter_isbn | Filter_BN]
                 # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
