@@ -67,7 +67,7 @@ if user_input:
             data.replace(replacement_dict, inplace=True) 
             
             '''> STEP.2 匯入檔案後，輸入條件查詢'''
-            NBorISBNorBN = st.selectbox("用合約詳編/ISBN/書名查詢",data["合約編號"] |  data["ISBN"]|data["書名"])
+            NBorISBNorBN = st.selectbox("用合約詳編/ISBN/書名查詢",data["書名"])
             NBorISBNorBN = NBorISBNorBN.upper()
             if NBorISBNorBN:
 
