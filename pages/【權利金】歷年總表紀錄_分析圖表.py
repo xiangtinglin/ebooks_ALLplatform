@@ -73,7 +73,7 @@ if user_input:
                     st.dataframe(recent_3years_rank)  
             # ------------------------------------- 【功能】第3區_STEP.3 匯入檔案後，輸入條件查詢 ▼-------------------------                    
             st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.3 _匯入檔案後，輸入條件查詢 ↓</span>', unsafe_allow_html=True)
-            INPUT_TEXT = st.text_input("輸入:合約詳or簡編/ISBN/單位名稱查詢")
+            INPUT_TEXT = st.text_input("輸入:合約簡編/ISBN/單位名稱查詢")
             INPUT_TEXT = INPUT_TEXT.upper()
         
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
@@ -82,7 +82,6 @@ if user_input:
                 st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.4 _自動分析~BOOM!! ↓</span>', unsafe_allow_html=True)
                 with st.expander("STEP.3 _的條件會自動代入，拋出結果"):
                     #篩選條件
-                    Filter_contract_number = data["合約詳編"] == INPUT_TEXT
                     Filter_contract_number_simple = data["合約簡編"] == INPUT_TEXT
                     Filter_isbn = data["ISBN"] == INPUT_TEXT
                     Filter_publisher = data["單位名稱"].str.contains(INPUT_TEXT)
@@ -159,7 +158,7 @@ if user_input:
                     # 在 Streamlit 中显示 Plotly 图表
                     st.plotly_chart(fig)
             else:
-                st.warning("請輸入正確合約詳or簡編/ISBN/單位名稱查詢") 
+                st.warning("請輸入正確合約簡編/ISBN/單位名稱查詢") 
                 
         else:
             st.warning("請上傳 Excel 文件。") 
