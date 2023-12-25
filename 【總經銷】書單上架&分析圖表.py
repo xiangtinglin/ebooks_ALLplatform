@@ -1,13 +1,6 @@
 import pipes
 import streamlit as st
-default_options = ["合約詳編", "ISBN", "書名"]
 
-# 讓使用者選擇
-selected_option = st.selectbox("選擇搜尋方式", default_options)
-
-# 使用者輸入
-NBorISBNorBN = st.text_input(f"用{selected_option}查詢")
-NBorISBNorBN = NBorISBNorBN.upper()
 #設定密碼
 passwords_and_names = {
     "8311": "啟宏",
@@ -74,7 +67,7 @@ if user_input:
             data.replace(replacement_dict, inplace=True) 
             
             '''> STEP.2 匯入檔案後，輸入條件查詢'''
-            NBorISBNorBN = st.text_input("用合約詳編/ISBN/書名查詢")
+            NBorISBNorBN = st.selectbox("用合約詳編/ISBN/書名查詢",data["合約編號"] |  data["ISBN"]|data["書名"])
             NBorISBNorBN = NBorISBNorBN.upper()
             if NBorISBNorBN:
 
