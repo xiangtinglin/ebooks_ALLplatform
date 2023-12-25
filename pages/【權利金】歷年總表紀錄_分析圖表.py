@@ -85,7 +85,7 @@ if user_input:
                     Filter_contract_number_simple = data["合約簡編"] == INPUT_TEXT
                     Filter_isbn = data["ISBN"] == INPUT_TEXT
                     Filter_publisher = data["單位名稱"].str.contains(INPUT_TEXT)
-                    result = data[Filter_contract_number | Filter_isbn | Filter_publisher]
+                    result = data[Filter_contract_number_simple | Filter_isbn | Filter_publisher]
                     
                     # -----------------------------'''# 以下是篩選後的權利金情形(可供下載)'''--------------------------------------
                     styled_text = f'<span style="color:blue; font-size:20px;"> 【一、以下是篩選後的權利金情形(可供下載)】 </span>'
