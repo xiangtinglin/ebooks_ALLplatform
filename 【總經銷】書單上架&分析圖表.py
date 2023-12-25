@@ -1,6 +1,13 @@
 import pipes
 import streamlit as st
+default_options = ["合約詳編", "ISBN", "書名"]
 
+# 讓使用者選擇
+selected_option = st.selectbox("選擇搜尋方式", default_options)
+
+# 使用者輸入
+NBorISBNorBN = st.text_input(f"用{selected_option}查詢")
+NBorISBNorBN = NBorISBNorBN.upper()
 #設定密碼
 passwords_and_names = {
     "8311": "啟宏",
