@@ -132,7 +132,7 @@ if user_input:
                     columns=['a', 'b', 'c'])
                 st.line_chart(chart_data)
             else:
-                st.warning("請輸入合約詳編或isbn")
+                st.warning("請輸入正確的合約詳編/ISBN/單位名稱查詢")
         else:
             st.warning("請上傳 Excel 文件。")
     else:
