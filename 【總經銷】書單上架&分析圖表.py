@@ -67,9 +67,9 @@ if user_input:
             data.replace(replacement_dict, inplace=True) 
             
             '''> STEP.2 匯入檔案後，輸入條件查詢'''
-            NUMBERorISBN = st.text_input("用合約詳編/ISBN查詢")
-            NUMBERorISBN = NUMBERorISBN.upper()
-            if NUMBERorISBN:
+            NBorISBNorBN = st.text_input("用合約詳編/ISBN/書名查詢")
+            NBorISBNorBN = NBorISBNorBN.upper()
+            if NBorISBNorBN:
 
                 '''> STEP.3 自動分析~BOOM!!'''
                 # 指定要查找和替换的内容
@@ -90,9 +90,10 @@ if user_input:
                 # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
             
                 #篩選條件
-                Filter_contract_number = data["合約編號"] == NUMBERorISBN
-                Filter_isbn = data["ISBN"] == NUMBERorISBN
-                result = data[Filter_contract_number | Filter_isbn]
+                Filter_contract_number = data["合約編號"] == NBorISBNorBN
+                Filter_isbn = data["ISBN"] == NBorISBNorBN
+                Filter_BN = data["書名"].str.contains(NBorISBNorBN)
+                result = data[Filter_contract_number | Filter_isbn | Filter_BN]
                 # ------------------------------------------- 重要資訊統計 ▼-------------------------------------------------------
                 '''*以下是書單上架情況統計'''
                 total = "總共建檔數:" + str(len(result))
