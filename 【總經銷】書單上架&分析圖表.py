@@ -67,7 +67,7 @@ if user_input:
             data.replace(replacement_dict, inplace=True) 
             
             '''> STEP.2 匯入檔案後，輸入條件查詢'''
-            NBorISBNorBN = st.text_input("用合約'簡'編/ISBN/書名查詢")
+            NBorISBNorBN = st.text_input("*用合約'簡'編/ISBN/書名查詢")
             NBorISBNorBN = NBorISBNorBN.upper()
             if NBorISBNorBN:
 
