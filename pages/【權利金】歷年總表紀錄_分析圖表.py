@@ -73,18 +73,19 @@ if user_input:
                     st.dataframe(recent_3years_rank)  
             # ------------------------------------- 【功能】第3區_STEP.3 匯入檔案後，輸入條件查詢 ▼-------------------------                    
             st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.3 _匯入檔案後，輸入條件查詢 ↓</span>', unsafe_allow_html=True)
-            NUMBERorISBN = st.text_input("輸入:合約詳編/ISBN查詢")
-            NUMBERorISBN = NUMBERorISBN.upper()
+            INPUT_TEXT = st.text_input("輸入:合約詳編/ISBN/單位名稱查詢")
+            INPUT_TEXT = INPUT_TEXT.upper()
         
             # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
             # ---------------- ▼-【功能】第4區 STEP.4 自動分析~BOOM!! ▼-------------------
-            if NUMBERorISBN :
+            if INPUT_TEXT :
                 st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.4 _自動分析~BOOM!! ↓</span>', unsafe_allow_html=True)
                 with st.expander("STEP.3 _的條件會自動代入，拋出結果"):
                     #篩選條件
-                    Filter_contract_number = data["合約詳編"] == NUMBERorISBN
-                    Filter_isbn = data["ISBN"] == NUMBERorISBN
-                    result = data[Filter_contract_number | Filter_isbn]
+                    Filter_contract_number = data["合約詳編"] == INPUT_TEXT
+                    Filter_isbn = data["ISBN"] == INPUT_TEXT
+                    Filter_publisher = data["單位名稱"].str.contains(INPUT_TEXT)
+                    result = data[Filter_contract_number | Filter_isbn | Filter_publisher]
                     
                     # -----------------------------'''# 以下是篩選後的權利金情形(可供下載)'''--------------------------------------
                     styled_text = f'<span style="color:blue; font-size:20px;"> 【一、以下是篩選後的權利金情形(可供下載)】 </span>'
@@ -95,11 +96,11 @@ if user_input:
                     #------'''# 以下是銷售情況統計'''------
                     styled_text = f'<span style="color:blue; font-size:20px;"> 【二、以下是銷售情況統計】 </span>'
                     st.markdown(styled_text, unsafe_allow_html=True)
-                    total = f"(一){NUMBERorISBN}銷售訂單件數共 : " + str(len(result)) + "(非title數)"
+                    total = f"(一){INPUT_TEXT}銷售訂單件數共 : " + str(len(result)) + "(非title數)"
                     total 
-                    total_money = f"(二){NUMBERorISBN}單位歷年電子書銷售單位(客戶)總數 : " + str(result["銷售單位"].nunique()) + "(個)"
+                    total_money = f"(二){INPUT_TEXT}單位歷年電子書銷售單位(客戶)總數 : " + str(result["銷售單位"].nunique()) + "(個)"
                     total_money 
-                    total_money = f"(三){NUMBERorISBN}單位歷年電子書內容收益總額 : " + str(result["電子書內容收益"].sum() ) + "(新台幣)"
+                    total_money = f"(三){INPUT_TEXT}單位歷年電子書內容收益總額 : " + str(result["電子書內容收益"].sum() ) + "(新台幣)"
                     total_money        
                     pd_income_peryear = result.groupby(by=['年'])['電子書內容收益'].sum().reset_index()
                     pd_income_peryear.index = range(1,len(pd_income_peryear)+1)
