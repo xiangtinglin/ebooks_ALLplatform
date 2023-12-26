@@ -62,6 +62,9 @@ if user_input:
                 if view_option == "歷年加總":
                     # 將相同的合約簡編分為同類，後加總收益
                     # total_rank = data.groupby(["合約簡編", "單位名稱"]).agg({'電子書內容收益': 'sum'}).reset_index().sort_values(by='電子書內容收益', ascending=False)
+                    # 將相同的合約簡編分為同類，後加總收益
+                    total_rank = data.groupby(["合約簡編", "單位名稱"]).agg({'電子書內容收益': 'sum'})
+                    total_rank.reset_index()
                     # 列出的欄位
                     total_rank =  data.groupby(["合約簡編"]).agg({
                         '單位名稱': lambda x: ', '.join(x),
