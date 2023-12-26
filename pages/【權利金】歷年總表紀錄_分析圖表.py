@@ -69,7 +69,7 @@ if user_input:
                     total_rank = data[['合約簡編','合約詳編','單位名稱','電子書內容收益','合約簡編下所有品牌的電子書內容收益加總','合約簡編下所有品牌的電子書權利金加總']].sort_values('合約簡編下所有品牌的電子書內容收益加總',ascending=False)
                     total_rank = total_rank.sort_values('合約詳編',ascending=True)
                     total_rank.index = range(1, len(total_rank) + 1)
-                    st.dataframe(result)
+                    st.dataframe(total_rank)
             
                 elif view_option == "近3年":
                     # Assuming '年' is the column representing years
