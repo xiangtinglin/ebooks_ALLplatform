@@ -60,9 +60,8 @@ if user_input:
     
                 # Display selected view
                 if view_option == "歷年加總":
-                    total_rank = data.groupby(["合約簡編",'合約詳編','單位名稱'])["電子書內容收益","權利金"].sum()
-         
-                    total_rank = total_rank.sort_values('合約詳編',ascending=False)
+                    total_rank = data.groupby("合約簡編")["電子書內容收益","權利金"].sum().reset_index()
+                    total_rank = total_rank.sort_values('電子書內容收益',ascending=False)
                     total_rank.index = range(1, len(total_rank) + 1)
                     st.dataframe(total_rank)
             
