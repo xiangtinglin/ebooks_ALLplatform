@@ -71,8 +71,8 @@ if user_input:
                     # 重新排序欄位順序
                     total_rank = total_rank[['合約簡編', '單位名稱', '電子書內容收益']]
                     total_rank
-                    # total_rank.index = range(1, len(total_rank) + 1)
-                    # st.dataframe(total_rank)
+                    total_rank.index = range(1, len(total_rank) + 1)
+                    st.dataframe(total_rank)
             
                 elif view_option == "近3年":
                     # Assuming '年' is the column representing years
