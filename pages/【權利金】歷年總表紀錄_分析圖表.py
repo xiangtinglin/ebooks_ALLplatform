@@ -62,10 +62,16 @@ if user_input:
                 if view_option == "歷年加總":
                     
                     # 將相同的合約簡編分為同類，後加總收益
-                    total_rank = data.groupby("合約簡編")['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
-
-                    total_rank.index = range(1, len(total_rank) + 1)
-                    st.dataframe(total_rank)
+                    # total_rank = data.groupby("合約簡編")['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False)
+                    result = data.groupby(["合約簡編", "單位名稱"]).agg({'電子書內容收益': 'sum'}).reset_index()
+                    # 列出的欄位
+                    result = result.groupby("合約簡編").agg({
+                         '單位名稱': lambda x: ','.join(x),  
+                        '電子書內容收益': 'sum'
+                    }).reset_index().sort_values(by='電子書內容收益', ascending=False)
+                    result
+                    result.index = range(1, len(total_rank) + 1)
+                    st.dataframe(result)
             
                 elif view_option == "近3年":
                     # Assuming '年' is the column representing years
