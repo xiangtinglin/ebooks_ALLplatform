@@ -64,8 +64,8 @@ if user_input:
                     # total_rank = data.groupby(["合約簡編", "單位名稱"]).agg({'電子書內容收益': 'sum'}).reset_index().sort_values(by='電子書內容收益', ascending=False)
                     # 列出的欄位
                     total_rank =  data.groupby(["合約簡編"]).agg({
-                        '單位名稱': lambda x: r'\n'.join(x),
-                        '電子書內容收益': 'sum'}).reset_index()
+                        '單位名稱': lambda x: ', '.join(x),
+                        '電子書內容收益': 'sum'}).reset_index().sort_values(by='電子書內容收益', ascending=False)
                     
                     # 重新排序欄位順序
                     total_rank = total_rank[['合約簡編', '單位名稱', '電子書內容收益']]
