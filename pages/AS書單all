@@ -37,13 +37,14 @@ if user_input:
             uploaded_file = st.file_uploader("p.s.第一次載入大量數據需要數秒，之後查詢會很快^^，匯入後檔案預設存效4小時", type=["xlsx"])
             # ------------------ 暫存函式 ▼------------------------
             import pandas as pd
-            sheet_name = "總經銷書單" #@指定分頁
-        
+            sheet_name = "AS" #@指定分頁
+            # 定義篩選條件    
+
             @st.cache_data(ttl=3600*4)  # 設定生存時間 (TTL) 為 3600*4 秒 (4 小時)
             def fist_loading(file_path):
                 data = pd.read_excel(file_path,
                                      sheet_name=sheet_name,         #@指定分頁
-                                     usecols=[0,2,3,8,17,19,23,25,29,31,36,38,42,44,48,50,54,56,60,62,66,68,72,74,78,80,84,86,90,92,96,98],  #@指定欄位
+                                     usecols=[0,1,12,13,23,95,96,130,138,145,146],  #@指定欄位
                                      # nrows=10,                      #@指定列數
                                      # header = 3,                      #header = ?  >> 指定第?列為header(index)
                                      engine='openpyxl')
