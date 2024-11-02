@@ -1,13 +1,15 @@
-
-# import套件 #   
+# import套件 #
 import streamlit as st
 import pandas as pd
-#設定密碼
+from datetime import datetime, timedelta
+
+# 設定密碼
 passwords_and_names = {
     "1234": "Hello! '測試者'，您好～",
     "6197": "Ersha湘婷",
 }
-#標題 
+
+# 標題 
 st.title("權利金銷售情況")
 
 # 在首頁輸入密碼
@@ -19,14 +21,19 @@ if user_input:
         # 獲取對應的名字
         user_name = passwords_and_names[user_input]
         success_message = st.success(f"Hi~{user_name}！密碼正確，已解鎖應用程序！")
+        
         import time
         time.sleep(0.9)
         success_message.empty()
+        
+        # 使用 session_state 來記錄內嵌測試檔加載狀態
+        if 'pre_data' not in st.session_state or 'load_time' not in st.session_state or datetime.now() > st.session_state['load_time'] + timedelta(hours=4):
+            st.session_state['pre_data'] = None
+            st.session_state['load_time'] = datetime.now()
 
-# ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
         # ------------------ ▼【功能】第一區 ｜STEP.1 _匯入檔案 ▼------------------------
         st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜STEP.1 _匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓</span>', unsafe_allow_html=True)
-        pre_data = None  # 預設為 None，後續會根據按鈕或上傳狀態進行賦值      
+        
         # 自動載入測試檔案的按鈕
         if st.button("使用內嵌測試檔案"):
             # 指定測試檔案路徑
@@ -39,43 +46,38 @@ if user_input:
                     usecols=["單位名稱","合約簡編","ISBN","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],
                     engine='openpyxl'
                 )
+                st.session_state['pre_data'] = pre_data
+                st.session_state['load_time'] = datetime.now()
                 st.success("測試檔案已成功加載！")
             except FileNotFoundError:
                 st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
             except Exception as e:
                 st.error(f"加載測試檔案時出現錯誤: {e}")
 
-        # 定義加載檔案的函數，設定 TTL 緩存時間為 4 小時
-            @st.cache_data(ttl=3600*4)
-            def load_data(file):
-                return pd.read_excel(
-                    file,
-                    sheet_name="2014Q1-今【銷售明細_書籍】ALL項目",
-                    usecols=["單位名稱","合約簡編","ISBN","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],
-                    engine='openpyxl'
-                )
-
         # 上傳檔案的選項
         with st.expander("請上傳Excel文件:【權利金】歷年總表紀錄 "):
             uploaded_file = st.file_uploader("p.s.第一次載入大量數據需要數秒，之後查詢會很快^^，匯入後檔案預設存效4小時", type=["xlsx"])
 
-            # 如果上傳了檔案，則加載上傳的檔案
-            @st.cache_data(ttl=3600*4)  # 設定生存時間 (TTL) 為 3600*4 秒 (4 小時)
-            def fist_loading(file):
-                return pd.read_excel(
-                    file,
-                    sheet_name="2014Q1-今【銷售明細_書籍】ALL項目",
-                    usecols=["單位名稱","合約簡編","ISBN","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],
-                    engine='openpyxl'
-                )
-
+            # 如果上傳了檔案，則加載上傳的檔案，並覆蓋內嵌測試檔案的數據
             if uploaded_file:
+                @st.cache_data(ttl=3600*4)  # 設定生存時間 (TTL) 為 3600*4 秒 (4 小時)
+                def fist_loading(file):
+                    return pd.read_excel(
+                        file,
+                        sheet_name="2014Q1-今【銷售明細_書籍】ALL項目",
+                        usecols=["單位名稱","合約簡編","ISBN","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],
+                        engine='openpyxl'
+                    )
+
                 pre_data = fist_loading(uploaded_file)
+                st.session_state['pre_data'] = pre_data
+                st.session_state['load_time'] = datetime.now()
                 st.success("已成功加載上傳的檔案！")
 
-        # 如果資料已經成功加載，進行後續資料處理
-        if pre_data is not None:
-            data = pre_data
+        # 使用 session_state 中的 pre_data
+        if st.session_state['pre_data'] is not None:
+            data = st.session_state['pre_data']
+
             # ------------------ 原始資料加工 ▼------------------------
             #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
@@ -186,15 +188,13 @@ if user_input:
             
                     # 在 Streamlit 中显示 Plotly 图表
                     st.plotly_chart(fig)
-            else:
-                st.warning("請輸入正確合約簡編/ISBN/單位名稱查詢") 
-                
         else:
-            st.warning("請上傳 Excel 文件。") 
+            st.warning("請上傳或加載內嵌測試檔案。")
     else:
         st.warning("密碼錯誤。")
 else:
     st.warning("尚未輸入密碼。")
+
 
 # # import套件 #   
 # import streamlit as st
