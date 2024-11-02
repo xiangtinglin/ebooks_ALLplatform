@@ -68,7 +68,7 @@ if user_input:
             
                 elif view_option == "近3年":
                     # Assuming '年' is the column representing years
-                    recent_3years_data = data[data['年'].isin(data['年'].unique()[-3:])]
+                    recent_3years_data = data[data['年'].isin(data['年'].unique()[-4:])]
                     recent_3years_rank = recent_3years_data.groupby(by=['合約簡編'])[['電子書內容收益','權利金']].sum().round(0).reset_index().sort_values(
                         by='電子書內容收益', ascending=False)
                     recent_3years_rank.index = range(0, len(recent_3years_rank) + 1)
