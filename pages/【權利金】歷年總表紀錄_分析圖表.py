@@ -42,7 +42,7 @@ if user_input:
             def fist_loading(file_path):
                 data = pd.read_excel(file_path,
                                      sheet_name=sheet_name,         #@指定分頁
-                                     usecols=["單位名稱","合約簡編","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],  #@指定欄位
+                                     usecols=["單位名稱","合約簡編","ISBN","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],  #@指定欄位
                                      # usecols=[0,1,2,3,5,7,9,10,11,12,13,14,15,16,20,21,22,23,24,37],  #@指定欄位
                                      # nrows=10,                      #@指定列數
                                      header = 0,                      #header = ?  >> 指定第?列為header(index)
