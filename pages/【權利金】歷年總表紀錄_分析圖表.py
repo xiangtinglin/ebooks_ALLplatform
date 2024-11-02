@@ -61,19 +61,20 @@ if user_input:
                     engine='openpyxl'
                 )
                 st.success("測試檔案已成功加載！")
-            
+                        
+                ## 自動觸發下載
+                st.download_button(
+                    label="下載測試檔案",
+                    data=buffer,
+                    file_name="test_file.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    )
             except FileNotFoundError:
                 st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
             except Exception as e:
                 st.error(f"加載測試檔案時出現錯誤: {e}")
                 
-            # 自動觸發下載
-            st.download_button(
-                label="下載測試檔案",
-                data=buffer,
-                file_name="test_file.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
+
                 
         # 如果資料已經成功加載，進行後續資料處理
         if pre_data is not None:
