@@ -1,23 +1,14 @@
 import streamlit as st
 #設定密碼
 passwords_and_names = {
-    "8311": "啟宏",
-    "8497": "禮澤",
-    "8661": "Gem林芝",
-    "8927": "Amber虹儀",
-    "8968": "Maggie玫君",
-    "6045": "Grace芷瑄",
+    "1234": "Hello測試者，您好～",
     "6197": "Ersha湘婷",
-    "6230": "Iris沛晴",
-    "8997": "Sinyi昕怡",
-    "8156": "Wanju婉汝",
-    "8837": "Grace洺瑱"
 }
 #標題 
 st.title("權利金銷售情況")
 
 # 在首頁輸入密碼
-user_input = st.text_input("請輸入密碼:", type="password")
+user_input = st.text_input("請輸入密碼（測試用：1234）:", type="password")
 
 if user_input:    
     # 驗證密碼
