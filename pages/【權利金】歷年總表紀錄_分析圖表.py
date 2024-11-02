@@ -23,17 +23,6 @@ if user_input:
         # ------------------ ▼【功能】第一區 ｜STEP.1 _匯入檔案 ▼------------------------
         st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜STEP.1 _匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓</span>', unsafe_allow_html=True)
         
-        file_path = "Test.xlsx"
-        with open(file_path, "rb") as file:
-            file_data = file.read()
-
-        # 提供下載按鈕
-            st.download_button(
-            label="下載測試檔",
-            data=file_data,
-            file_name="Test.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
         # -------------------
         with st.expander( "請上傳Excel文件:【權利金】歷年總表紀錄 "):
             uploaded_file = st.file_uploader("p.s.第一次載入大量數據需要數秒，之後查詢會很快^^，匯入後檔案預設存效4小時", type=["xlsx"])
