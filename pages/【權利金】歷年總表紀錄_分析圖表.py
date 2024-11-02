@@ -78,7 +78,7 @@ if user_input:
                 )
 
             if uploaded_file:
-                pre_data = fist_loading(uploaded_file)
+                st.session_state.pre_data = fist_loading(uploaded_file)
                 st.success("已成功加載上傳的檔案！")
 
         
