@@ -1,7 +1,7 @@
 import streamlit as st
 #設定密碼
 passwords_and_names = {
-    "1234": "Hello測試者，您好～",
+    "1234": "Hello! "測試者"，您好～",
     "6197": "Ersha湘婷",
 }
 #標題 
