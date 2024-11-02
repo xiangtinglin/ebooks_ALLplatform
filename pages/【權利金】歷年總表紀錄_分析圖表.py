@@ -28,17 +28,19 @@ if user_input:
             # 指定測試檔案路徑
             file_path = "test_file.xlsx"
             # 加載資料
-            data = pd.read_excel(
-                file_path,
-                sheet_name="2014Q1-今【銷售明細_書籍】ALL項目",
-                usecols=["單位名稱","合約簡編","ISBN","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],
-                engine='openpyxl'
-            )
-            st.success("測試檔案已成功加載！")
-        else FileNotFoundError:
-            st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
-        else Exception as e:
-            st.error(f"加載測試檔案時出現錯誤: {e}")
+            try:
+                # 加載資料
+                data = pd.read_excel(
+                    file_path,
+                    sheet_name="2014Q1-今【銷售明細_書籍】ALL項目",
+                    usecols=["單位名稱","合約簡編","ISBN","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],
+                    engine='openpyxl'
+                )
+                st.success("測試檔案已成功加載！")
+            except FileNotFoundError:
+                st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
+            except Exception as e:
+                st.error(f"加載測試檔案時出現錯誤: {e}")
 
         # -------------------
         with st.expander( "請上傳Excel文件:【權利金】歷年總表紀錄 "):
