@@ -1,5 +1,4 @@
 
-
 # import套件 #   
 import streamlit as st
 import pandas as pd
@@ -24,11 +23,10 @@ if user_input:
         time.sleep(0.9)
         success_message.empty()
 
-        data = None  # 預設為 None，後續會根據按鈕或上傳狀態進行賦值
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
         # ------------------ ▼【功能】第一區 ｜STEP.1 _匯入檔案 ▼------------------------
         st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜STEP.1 _匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓</span>', unsafe_allow_html=True)
-      
+        data = None  # 預設為 None，後續會根據按鈕或上傳狀態進行賦值      
         # 自動載入測試檔案的按鈕
         if st.button("使用內嵌測試檔案"):
             # 指定測試檔案路徑
