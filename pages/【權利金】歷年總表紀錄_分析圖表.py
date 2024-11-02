@@ -62,7 +62,7 @@ if user_input:
                 
                 ## 下載檔案內容## 提供下載網路檔案的選項
                 # 設定要下載的檔案的 URL
-                file_url = "https://docs.google.com/spreadsheets/d/1dxGP0lQSY1-tkMtWA0TM5ZOC6ni_t8YWlkY7tflHYPE/edit?usp=drive_link"
+                file_url = "https://drive.google.com/uc?export=download&id=1dxGP0lQSY1-tkMtWA0TM5ZOC6ni_t8YWlkY7tflHYPE"
                 file_name = "【權利金】歷年總表紀錄.xlsx"
                 
                 response = requests.get(file_url)
