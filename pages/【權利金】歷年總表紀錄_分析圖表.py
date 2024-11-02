@@ -66,29 +66,14 @@ if user_input:
                 st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
             except Exception as e:
                 st.error(f"加載測試檔案時出現錯誤: {e}")
-
-                # Google Drive 檔案 ID
-        file_id = "1dxGP0lQSY1-tkMtWA0TM5ZOC6ni_t8YWlkY7tflHYPE"  # 替換為您的檔案 ID
-        file_name = "測試的檔案.xlsx"  # 自定義下載檔案名稱
-        
-        # 生成直接下載 URL
-        file_url = f"https://drive.google.com/uc?export=download&id={file_id}"
-        
-        if st.button("下載 Google Drive 檔案"):
-            # 嘗試從 Google Drive 下載檔案
-            try:
-                response = requests.get(file_url)
-                if response.status_code == 200:
-                    st.download_button(
-                        label="點擊下載檔案",
-                        data=response.content,
-                        file_name=file_name,
-                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                    )
-                else:
-                    st.error("檔案下載失敗，請確認 Google Drive 檔案連結或分享設置是否正確。")
-            except Exception as e:
-                st.error(f"下載過程中出現錯誤: {e}")
+                
+            # 自動觸發下載
+            st.download_button(
+                label="下載測試檔案",
+                data=buffer,
+                file_name="test_file.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
                 
         # 如果資料已經成功加載，進行後續資料處理
         if pre_data is not None:
