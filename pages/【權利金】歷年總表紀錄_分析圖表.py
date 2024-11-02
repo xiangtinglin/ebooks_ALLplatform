@@ -47,26 +47,28 @@ if user_input:
                 st.success("已成功加載上傳的檔案！")
                 
         #### 自動載入測試檔案的按鈕 ###
-        if st.button("使用內嵌測試檔案"):
-            # 指定測試檔案路徑
-            file_path = "pages/test_file.xlsx"
-            # 加載資料
-            try:
-                pre_data = pd.read_excel(
-                    file_path,
-                    sheet_name="2014Q1-今【銷售明細_書籍】ALL項目",
-                    usecols=["單位名稱","合約簡編","ISBN","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],
-                    engine='openpyxl'
-                )
-                st.success("測試檔案已成功加載！")
-            except FileNotFoundError:
-                st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
-            except Exception as e:
-                st.error(f"加載測試檔案時出現錯誤: {e}")
-                
-        # 如果資料已經成功加載，進行後續資料處理
-        if pre_data is not None:
-            data = pre_data
+            
+            if st.button("使用內嵌測試檔案"):
+                file_path = "pages/test_file.xlsx"
+                try:
+                    st.session_state.pre_data = pd.read_excel(
+                        file_path,
+                        sheet_name="2014Q1-今【銷售明細_書籍】ALL項目",
+                        usecols=["單位名稱","合約簡編","ISBN","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],
+                        engine='openpyxl'
+                    )
+                    st.success("測試檔案已成功加載！")
+                except FileNotFoundError:
+                    st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
+                except Exception as e:
+                    st.error(f"加載測試檔案時出現錯誤: {e}")
+    
+            if st.session_state.pre_data is not None:
+                data = st.session_state.pre_data
+
+
+
+            
             # ------------------ 原始資料加工 ▼------------------------
             #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
