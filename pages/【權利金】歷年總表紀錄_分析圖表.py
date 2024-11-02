@@ -35,6 +35,10 @@ if user_input:
                 engine='openpyxl'
             )
             st.success("測試檔案已成功加載！")
+        except FileNotFoundError:
+            st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
+        except Exception as e:
+            st.error(f"加載測試檔案時出現錯誤: {e}")
 
         # -------------------
         with st.expander( "請上傳Excel文件:【權利金】歷年總表紀錄 "):
