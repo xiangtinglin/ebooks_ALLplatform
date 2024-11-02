@@ -98,88 +98,88 @@ else:
         st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.3 _匯入檔案後，輸入條件查詢 ↓</span>', unsafe_allow_html=True)
         INPUT_TEXT = st.text_input("輸入:合約簡編/ISBN/單位名稱查詢").upper()
 
-            # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
-            # ---------------- ▼-【功能】第4區 STEP.4 自動分析~BOOM!! ▼-------------------
-            if INPUT_TEXT :
-                st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.4 _自動分析~BOOM!! ↓</span>', unsafe_allow_html=True)
-                with st.expander("STEP.3 _的條件會自動代入，拋出結果"):
-                    #篩選條件
-                    Filter_contract_number_simple = data["合約簡編"] == INPUT_TEXT
-                    Filter_isbn = data["ISBN"] == INPUT_TEXT
-                    Filter_publisher = data["單位名稱"].str.contains(INPUT_TEXT)
-                    result = data[Filter_contract_number_simple | Filter_isbn | Filter_publisher]
-                    
-                    # -----------------------------'''# 以下是篩選後的權利金情形(可供下載)'''--------------------------------------
-                    styled_text = f'<span style="color:blue; font-size:20px;"> 【一、以下是篩選後的權利金情形(可供下載)】 </span>'
-                    st.markdown(styled_text, unsafe_allow_html=True)
-                    result.index = range(1,len(result)+1)
-                    st.dataframe(result)
-                    # -------------------------- 重要資訊統計 ▼---------------------------------
-                    #------'''# 以下是銷售情況統計'''------
-                    styled_text = f'<span style="color:blue; font-size:20px;"> 【二、以下是銷售情況統計】 </span>'
-                    st.markdown(styled_text, unsafe_allow_html=True)
-                    total = f"(一){INPUT_TEXT}銷售訂單件數共 : " + str(len(result)) + "(非title數)"
-                    total 
-                    total_money = f"(二){INPUT_TEXT}單位歷年電子書銷售單位(客戶)總數 : " + str(result["銷售單位"].nunique()) + "(個)"
-                    total_money 
-                    total_money = f"(三){INPUT_TEXT}單位歷年電子書內容收益總額 : " + str(result["電子書內容收益"].sum() ) + "(新台幣)"
-                    total_money        
-                    pd_income_peryear = result.groupby(by=['年'])['電子書內容收益'].sum().reset_index()
-                    pd_income_peryear.index = range(1,len(pd_income_peryear)+1)
-                    pd_income_peryear
-                    # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
-                    # --------------- 繪圖 ▼ 歷年收益(長條圖)-------------
-                    styled_text = f'<span style="color:blue; font-size:20px;"> 【三、開始繪圖】 </span>'
-                    st.markdown(styled_text, unsafe_allow_html=True)
-                    import plotly.express as px
-                    import pandas as pd
-                    fig = px.bar(pd_income_peryear, x='年', y='電子書內容收益', title='【歷年】電子書內容收益')
-                    # 調整 x 軸刻度為整數
-                    fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
-                    fig.update_xaxes(tickmode='linear')  # 使用線性刻度
-                    fig.update_xaxes(tick0=0)  # 刻度的起始點
-                    fig.update_xaxes(dtick=1)  # 刻度的間距
-            
-                    # 在 Streamlit 中显示 Plotly 图表
-                    st.plotly_chart(fig)
-                    # --------------- 繪圖 ▼ 銷售市場-地區(pie圖)-------------
-                    # 按銷售地區分组并计算權利金总和
-                    x = result.groupby(by=['銷售地區'])['電子書內容收益'].sum().reset_index()
-                    fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='【銷售市場】-海內/外收益佔比', 
-                                 hover_data=['電子書內容收益'],
-                                 )
-                    fig.update_layout(height=500, width=700)
-                    st.plotly_chart(fig)
-                    # --------------- 繪圖 ▼ 銷售客源前五(長條圖)-------------
-                    import plotly.express as px
-                    import pandas as pd
-                    x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
-                    # 計算總額
-                    total_sales = result['電子書內容收益'].sum()
-                    # 計算各單位銷售佔總額的比例
-                    x['百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
-                    fig = px.bar(x, x='銷售單位', y='電子書內容收益',text='百分比', title='【銷售單位】排名前五')
-                    # 在 Streamlit 中显示 Plotly 图表
-                    st.plotly_chart(fig)
-                    x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
-                    # --------------- 繪圖 ▼ 【出版品出版年】銷售收益前五(長條圖)-------------
-                    import plotly.express as px
-                    import pandas as pd
-                    total_sales = result['電子書內容收益'].sum()
-                    x = result
-                    x['出版年'] = result['出版年'].replace('\s', '', regex=True)  # 去除所有空格
-                    x = result.groupby(by=['出版年'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
-                    # 計算各單位銷售佔總額的比例
-                    x['出版年收益百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
-                    fig = px.bar(x, x='出版年', y='電子書內容收益',text='出版年收益百分比', title='【出版品出版年】銷售收益前五')
-                    fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
-                    fig.update_xaxes(tickmode='linear')  # 使用線性刻度
-                    fig.update_xaxes(tick0=0)  # 刻度的起始點
-                    fig.update_xaxes(dtick=1)  # 刻度的間距
-            
-                    # 在 Streamlit 中显示 Plotly 图表
-                    st.plotly_chart(fig)   
-                     
+        # -------------------------------------------▲ 資料處理完成，以下開始篩選 ▼-------------------------------------------------------
+        # ---------------- ▼-【功能】第4區 STEP.4 自動分析~BOOM!! ▼-------------------
+        if INPUT_TEXT :
+            st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.4 _自動分析~BOOM!! ↓</span>', unsafe_allow_html=True)
+            with st.expander("STEP.3 _的條件會自動代入，拋出結果"):
+                #篩選條件
+                Filter_contract_number_simple = data["合約簡編"] == INPUT_TEXT
+                Filter_isbn = data["ISBN"] == INPUT_TEXT
+                Filter_publisher = data["單位名稱"].str.contains(INPUT_TEXT)
+                result = data[Filter_contract_number_simple | Filter_isbn | Filter_publisher]
+                
+                # -----------------------------'''# 以下是篩選後的權利金情形(可供下載)'''--------------------------------------
+                styled_text = f'<span style="color:blue; font-size:20px;"> 【一、以下是篩選後的權利金情形(可供下載)】 </span>'
+                st.markdown(styled_text, unsafe_allow_html=True)
+                result.index = range(1,len(result)+1)
+                st.dataframe(result)
+                # -------------------------- 重要資訊統計 ▼---------------------------------
+                #------'''# 以下是銷售情況統計'''------
+                styled_text = f'<span style="color:blue; font-size:20px;"> 【二、以下是銷售情況統計】 </span>'
+                st.markdown(styled_text, unsafe_allow_html=True)
+                total = f"(一){INPUT_TEXT}銷售訂單件數共 : " + str(len(result)) + "(非title數)"
+                total 
+                total_money = f"(二){INPUT_TEXT}單位歷年電子書銷售單位(客戶)總數 : " + str(result["銷售單位"].nunique()) + "(個)"
+                total_money 
+                total_money = f"(三){INPUT_TEXT}單位歷年電子書內容收益總額 : " + str(result["電子書內容收益"].sum() ) + "(新台幣)"
+                total_money        
+                pd_income_peryear = result.groupby(by=['年'])['電子書內容收益'].sum().reset_index()
+                pd_income_peryear.index = range(1,len(pd_income_peryear)+1)
+                pd_income_peryear
+                # ------------------------------------------- 開始繪圖 ▼-------------------------------------------------------
+                # --------------- 繪圖 ▼ 歷年收益(長條圖)-------------
+                styled_text = f'<span style="color:blue; font-size:20px;"> 【三、開始繪圖】 </span>'
+                st.markdown(styled_text, unsafe_allow_html=True)
+                import plotly.express as px
+                import pandas as pd
+                fig = px.bar(pd_income_peryear, x='年', y='電子書內容收益', title='【歷年】電子書內容收益')
+                # 調整 x 軸刻度為整數
+                fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
+                fig.update_xaxes(tickmode='linear')  # 使用線性刻度
+                fig.update_xaxes(tick0=0)  # 刻度的起始點
+                fig.update_xaxes(dtick=1)  # 刻度的間距
+        
+                # 在 Streamlit 中显示 Plotly 图表
+                st.plotly_chart(fig)
+                # --------------- 繪圖 ▼ 銷售市場-地區(pie圖)-------------
+                # 按銷售地區分组并计算權利金总和
+                x = result.groupby(by=['銷售地區'])['電子書內容收益'].sum().reset_index()
+                fig = px.pie(x, values='電子書內容收益', names='銷售地區', title='【銷售市場】-海內/外收益佔比', 
+                             hover_data=['電子書內容收益'],
+                             )
+                fig.update_layout(height=500, width=700)
+                st.plotly_chart(fig)
+                # --------------- 繪圖 ▼ 銷售客源前五(長條圖)-------------
+                import plotly.express as px
+                import pandas as pd
+                x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
+                # 計算總額
+                total_sales = result['電子書內容收益'].sum()
+                # 計算各單位銷售佔總額的比例
+                x['百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
+                fig = px.bar(x, x='銷售單位', y='電子書內容收益',text='百分比', title='【銷售單位】排名前五')
+                # 在 Streamlit 中显示 Plotly 图表
+                st.plotly_chart(fig)
+                x = result.groupby(by=['銷售單位'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
+                # --------------- 繪圖 ▼ 【出版品出版年】銷售收益前五(長條圖)-------------
+                import plotly.express as px
+                import pandas as pd
+                total_sales = result['電子書內容收益'].sum()
+                x = result
+                x['出版年'] = result['出版年'].replace('\s', '', regex=True)  # 去除所有空格
+                x = result.groupby(by=['出版年'])['電子書內容收益'].sum().reset_index().sort_values(by='電子書內容收益', ascending=False).head(5)
+                # 計算各單位銷售佔總額的比例
+                x['出版年收益百分比'] = ( (x['電子書內容收益'] / total_sales) * 100 ).round(2).astype(str) + '%\n(佔總收益)'
+                fig = px.bar(x, x='出版年', y='電子書內容收益',text='出版年收益百分比', title='【出版品出版年】銷售收益前五')
+                fig.update_xaxes(type='category')  # 將 x 軸型別設為類別型
+                fig.update_xaxes(tickmode='linear')  # 使用線性刻度
+                fig.update_xaxes(tick0=0)  # 刻度的起始點
+                fig.update_xaxes(dtick=1)  # 刻度的間距
+        
+                # 在 Streamlit 中显示 Plotly 图表
+                st.plotly_chart(fig)   
+                 
 
 # # import套件 #   
 # import streamlit as st
