@@ -1,4 +1,6 @@
+# import套件 #   
 import streamlit as st
+import pandas as pd
 #設定密碼
 passwords_and_names = {
     "1234": "Hello! '測試者'，您好～",
@@ -46,7 +48,6 @@ if user_input:
         with st.expander( "請上傳Excel文件:【權利金】歷年總表紀錄 "):
             uploaded_file = st.file_uploader("p.s.第一次載入大量數據需要數秒，之後查詢會很快^^，匯入後檔案預設存效4小時", type=["xlsx"])
             # ------------------ 暫存函式 ▼------------------------
-            import pandas as pd
             sheet_name = "2014Q1-今【銷售明細_書籍】ALL項目"  #@指定分頁
         
             @st.cache_data(ttl=3600*4)  # 設定生存時間 (TTL) 為 3600*4 秒 (4 小時)
