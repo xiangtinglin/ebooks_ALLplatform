@@ -28,7 +28,7 @@ if user_input:
         # 自動載入測試檔案的按鈕
         if st.button("使用內嵌測試檔案"):
             # 指定測試檔案路徑
-            file_path = "test_file.xlsx"
+            file_path = "/pages/test_file.xlsx"
             # 加載資料
             try:
                 # 加載資料
