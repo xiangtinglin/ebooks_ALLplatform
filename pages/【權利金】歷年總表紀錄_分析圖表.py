@@ -47,11 +47,14 @@ if user_input:
             if uploaded_file:
                 pre_data = fist_loading(uploaded_file)
                 st.success("已成功加載上傳的檔案！")
-                
+        
+        
+        import io
         #### 自動載入測試檔案的按鈕 ###
         if st.button("使用內嵌測試檔案"):
             # 指定測試檔案路徑
             file_path = "pages/test_file.xlsx"
+            
             # 加載資料
             try:
                 pre_data = pd.read_excel(
@@ -61,21 +64,21 @@ if user_input:
                     engine='openpyxl'
                 )
                 st.success("測試檔案已成功加載！")
-                        
+        
                 # 準備檔案內容為二進位格式，以供下載
-                with io.BytesIO() as buffer:
-                    # 將 dataframe 轉為 Excel 格式並寫入 buffer
-                    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
-                        pre_data.to_excel(writer, index=False, sheet_name="2014Q1-今【銷售明細_書籍】ALL項目")
-                    buffer.seek(0)  # 將緩衝指標移至開始位置
-                    
-                    # 自動觸發下載
-                    st.download_button(
-                        label="下載測試檔案",
-                        data=buffer,
-                        file_name="test_file.xlsx",
-                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                    )
+                buffer = io.BytesIO()
+                with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+                    pre_data.to_excel(writer, index=False, sheet_name="2014Q1-今【銷售明細_書籍】ALL項目")
+                buffer.seek(0)  # 將緩衝指標移至開始位置
+        
+                # 顯示下載按鈕，讓使用者點擊下載
+                st.download_button(
+                    label="下載測試檔案",
+                    data=buffer,
+                    file_name="test_file.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+        
             except FileNotFoundError:
                 st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
             except Exception as e:
