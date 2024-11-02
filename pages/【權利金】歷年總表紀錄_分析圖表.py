@@ -59,23 +59,22 @@ if user_input:
                     engine='openpyxl'
                 )
                 st.success("測試檔案已成功加載！")
-
-              # 提供下載網路檔案的選項
-                        # 設定要下載的檔案的 URL
-            file_url = "https://docs.google.com/spreadsheets/d/1dxGP0lQSY1-tkMtWA0TM5ZOC6ni_t8YWlkY7tflHYPE/edit?usp=drive_link"
-            file_name = "【權利金】歷年總表紀錄.xlsx"
-            
-            ## 下載檔案內容##
-            response = requests.get(file_url)
-            if response.status_code == 200:
-                st.download_button(
-                    label="點擊下載網路檔案",
-                    data=response.content,
-                    file_name=file_name,
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
-            else:
-                st.error("無法下載網路檔案，請檢查連結是否正確。")
+                
+                ## 下載檔案內容## 提供下載網路檔案的選項
+                # 設定要下載的檔案的 URL
+                file_url = "https://docs.google.com/spreadsheets/d/1dxGP0lQSY1-tkMtWA0TM5ZOC6ni_t8YWlkY7tflHYPE/edit?usp=drive_link"
+                file_name = "【權利金】歷年總表紀錄.xlsx"
+                
+                response = requests.get(file_url)
+                if response.status_code == 200:
+                    st.download_button(
+                        label="點擊下載網路檔案",
+                        data=response.content,
+                        file_name=file_name,
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    )
+                else:
+                    st.error("無法下載網路檔案，請檢查連結是否正確。")
             
             except FileNotFoundError:
                 st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
