@@ -183,7 +183,7 @@ if user_input:
                 st.warning("請輸入正確合約簡編/ISBN/單位名稱查詢") 
                 
             else:
-            st.warning("請上傳 Excel 文件。") 
+                st.warning("請上傳 Excel 文件。") 
     else:
         st.warning("密碼錯誤。")
 else:
