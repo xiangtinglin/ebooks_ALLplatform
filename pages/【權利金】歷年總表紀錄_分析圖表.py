@@ -26,14 +26,14 @@ if user_input:
 # ------------------------------------------- 在這裡放置您的應用程序主要內容 ▼-------------------------------------------------------
         # ------------------ ▼【功能】第一區 ｜STEP.1 _匯入檔案 ▼------------------------
         st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜STEP.1 _匯入檔案(目前檔案無資料庫化，因此需從你電腦匯入檔案) ↓</span>', unsafe_allow_html=True)
-        data = None  # 預設為 None，後續會根據按鈕或上傳狀態進行賦值      
+        pre_data = None  # 預設為 None，後續會根據按鈕或上傳狀態進行賦值      
         # 自動載入測試檔案的按鈕
         if st.button("使用內嵌測試檔案"):
             # 指定測試檔案路徑
             file_path = "pages/test_file.xlsx"
             # 加載資料
             try:
-                data = pd.read_excel(
+                pre_data = pd.read_excel(
                     file_path,
                     sheet_name="2014Q1-今【銷售明細_書籍】ALL項目",
                     usecols=["單位名稱","合約簡編","ISBN","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],
@@ -60,11 +60,12 @@ if user_input:
                 )
 
             if uploaded_file:
-                data = fist_loading(uploaded_file)
+                pre_data = fist_loading(uploaded_file)
                 st.success("已成功加載上傳的檔案！")
 
         # 如果資料已經成功加載，進行後續資料處理
-        if data is not None:
+        if pre_data is not None:
+            data = pre_data
             # ------------------ 原始資料加工 ▼------------------------
             #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
