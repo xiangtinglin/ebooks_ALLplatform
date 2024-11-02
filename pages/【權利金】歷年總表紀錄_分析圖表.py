@@ -70,7 +70,7 @@ if user_input:
                 st.success("已成功加載上傳的檔案！")
 
         # 如果資料已經成功加載，進行後續資料處理
-        if st.session_state.pre_data is not None:
+        if st.session_state.pre_data:
             data = st.session_state.pre_data
             # ------------------ 原始資料加工 ▼------------------------
             # 拆份季節&年分
