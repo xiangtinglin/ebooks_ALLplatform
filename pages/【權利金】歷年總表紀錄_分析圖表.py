@@ -71,7 +71,7 @@ if user_input:
                     recent_3years_data = data[data['年'].isin(data['年'].unique()[-3:])]
                     recent_3years_rank = recent_3years_data.groupby(by=['合約簡編'])[['電子書內容收益','權利金']].sum().round(0).reset_index().sort_values(
                         by='電子書內容收益', ascending=False)
-                    recent_3years_rank.index = range(0, len(recent_3years_rank) + 1)
+                    recent_3years_rank.index = range(1, len(recent_3years_rank) + 1)
                     st.dataframe(recent_3years_rank)  
             # ------------------------------------- 【功能】第3區_STEP.3 匯入檔案後，輸入條件查詢 ▼-------------------------                    
             st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> ｜ STEP.3 _匯入檔案後，輸入條件查詢 ↓</span>', unsafe_allow_html=True)
