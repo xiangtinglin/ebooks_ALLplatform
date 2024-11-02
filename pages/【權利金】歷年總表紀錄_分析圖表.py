@@ -32,7 +32,7 @@ if user_input:
             # 加載資料
             try:
                 # 加載資料
-                data = pd.read_excel(
+                test_load_data = pd.read_excel(
                     file_path,
                     sheet_name="2014Q1-今【銷售明細_書籍】ALL項目",
                     usecols=["單位名稱","合約簡編","ISBN","合約詳編","出版年","電子書內容收益","拆帳比例","權利金","銷售單位","季","銷售地區"],
@@ -62,7 +62,7 @@ if user_input:
                 return data
             # Call the function with the uploaded file
         if uploaded_file:
-            data = fist_loading(uploaded_file)
+            data = fist_loading(uploaded_file|test_load_data)
             # ------------------ 原始資料加工 ▼------------------------
             #拆份季節&年分
             data[["年", "季"]] = data["季"].str.split("Q", expand=True)
