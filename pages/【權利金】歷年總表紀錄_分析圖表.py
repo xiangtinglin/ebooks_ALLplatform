@@ -2,6 +2,8 @@
 # import套件 #   
 import streamlit as st
 import pandas as pd
+import requests
+
 #設定密碼
 passwords_and_names = {
     "1234": "Hello! '測試者'，您好～",
