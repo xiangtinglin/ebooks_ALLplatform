@@ -62,12 +62,19 @@ if user_input:
                 )
                 st.success("測試檔案已成功加載！")
                         
-                ## 自動觸發下載
-                st.download_button(
-                    label="下載測試檔案",
-                    data=buffer,
-                    file_name="test_file.xlsx",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                # 準備檔案內容為二進位格式，以供下載
+                with io.BytesIO() as buffer:
+                    # 將 dataframe 轉為 Excel 格式並寫入 buffer
+                    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+                        pre_data.to_excel(writer, index=False, sheet_name="2014Q1-今【銷售明細_書籍】ALL項目")
+                    buffer.seek(0)  # 將緩衝指標移至開始位置
+                    
+                    # 自動觸發下載
+                    st.download_button(
+                        label="下載測試檔案",
+                        data=buffer,
+                        file_name="test_file.xlsx",
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     )
             except FileNotFoundError:
                 st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
