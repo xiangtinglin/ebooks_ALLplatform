@@ -63,6 +63,19 @@ if user_input:
                 st.error("無法找到測試檔案，請確認檔案已正確放置在指定路徑。")
             except Exception as e:
                 st.error(f"加載測試檔案時出現錯誤: {e}")
+
+            ## 同時也下載檔案##
+                response = requests.get(file_url)
+            if response.status_code == 200:
+                # 使用 st.download_button 讓用戶下載檔案
+                st.download_button(
+                    label="點擊下載檔案",
+                    data=response.content,
+                    file_name=file_name,
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+            else:
+                st.error("檔案下載失敗，請確認連結是否正確。")
                 
         # 如果資料已經成功加載，進行後續資料處理
         if pre_data is not None:
