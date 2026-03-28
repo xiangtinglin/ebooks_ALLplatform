@@ -163,7 +163,8 @@ passwords_and_names = {
 }
 
 st.title("【總經銷】書單上架&分析")
-print("Sorry～暫停服務！")
+st.markdown("Sorry～暫停服務！")
+
 user_input = st.text_input("請輸入密碼:", type="password")
 
 if user_input:
