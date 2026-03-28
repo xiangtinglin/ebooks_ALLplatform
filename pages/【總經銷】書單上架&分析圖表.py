@@ -163,7 +163,7 @@ passwords_and_names = {
 }
 
 st.title("【總經銷】書單上架&分析")
-st.markdown("Sorry～暫停服務！")
+st.markdown('<span style="color:red; font-weight:bold; font-size:22px;"> "Sorry～暫停服務！" </span>')
 
 user_input = st.text_input("請輸入密碼:", type="password")
 
