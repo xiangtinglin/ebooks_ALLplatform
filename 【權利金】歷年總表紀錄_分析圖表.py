@@ -53,7 +53,7 @@
 # #         #### 自動載入測試檔案的按鈕 ###
 # #         if st.button("使用內嵌測試檔案"):
 # #             # 指定測試檔案路徑
-# #             file_path = "pages/test_file.xlsx"
+# #             file_path = "test_files/test_file.xlsx"
             
 # #             # 加載資料
 # #             try:
@@ -306,7 +306,7 @@
 
 #         with col1:
 #             if st.button("使用內嵌測試檔案"):
-#                 file_path = "pages/test_file.xlsx"
+#                 file_path = "test_files/test_file.xlsx"
 #                 try:
 #                     st.session_state.pre_data = load_builtin_file(file_path)
 #                     st.session_state.data_source = "builtin"
@@ -601,7 +601,7 @@ USE_COLS = [
     "單位名稱", "合約簡編", "ISBN", "合約詳編", "出版年",
     "電子書內容收益", "拆帳比例", "權利金", "銷售單位", "季", "銷售地區"
 ]
-BUILTIN_FILE_PATH = "pages/test_file.xlsx"
+BUILTIN_FILE_PATH = "test_files/test_file.xlsx"
 
 
 # =========================
