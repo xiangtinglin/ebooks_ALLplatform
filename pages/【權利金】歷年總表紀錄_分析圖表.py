@@ -601,7 +601,7 @@ USE_COLS = [
     "單位名稱", "合約簡編", "ISBN", "合約詳編", "出版年",
     "電子書內容收益", "拆帳比例", "權利金", "銷售單位", "季", "銷售地區"
 ]
-BUILTIN_FILE_PATH = "pages/test_file.xlsx"
+BUILTIN_FILE_PATH = "pages/files/test_file.xlsx"
 
 
 # =========================
