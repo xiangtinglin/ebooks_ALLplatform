@@ -1,5 +1,5 @@
 import re
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 import streamlit as st
 
@@ -13,9 +13,7 @@ st.set_page_config(
 )
 
 # =========================================================
-# 可調整的 FAQ / 制度文字
-# 這裡先用「安全版」說法，避免沒有真實制度時答太死
-# 你之後可以直接把內容改成你們公司的正式版本
+# FAQ / 制度文字（可自行替換成正式版本）
 # =========================================================
 FAQ_ZH = {
     "cooperation": (
@@ -104,7 +102,7 @@ FAQ_EN = {
 
 QUESTION_TEMPLATES_ZH = [
     "我是出版社，想合作上架電子書，流程是什麼？",
-    "我是作者，可以直接跟你們合作嗎？",
+    "我不是作者，我是出版社，請問怎麼合作？",
     "請問銷售後多久會結算權利金？",
     "權利金抽成比例怎麼算？",
     "這本書為什麼無法提報？",
@@ -114,7 +112,7 @@ QUESTION_TEMPLATES_ZH = [
 
 QUESTION_TEMPLATES_EN = [
     "I am a publisher. How can I work with you?",
-    "I am an author. Can I cooperate with your company directly?",
+    "I am not an author. I am a publisher. How can we cooperate?",
     "When are royalties settled after sales?",
     "What is the revenue-sharing ratio?",
     "Why can't this title be listed?",
@@ -124,7 +122,6 @@ QUESTION_TEMPLATES_EN = [
 
 # =========================================================
 # 初始化 session state
-# Session State 會在同一個使用者 session 的 rerun 之間保留資料
 # =========================================================
 if "messages" not in st.session_state:
     st.session_state.messages = [
@@ -145,20 +142,20 @@ if "messages" not in st.session_state:
 
 if "context" not in st.session_state:
     st.session_state.context = {
-        "language": "zh",              # zh / en
+        "language": "zh",
         "isbn": None,
         "contract_number": None,
         "book_name": None,
         "publisher": None,
-        "role_hint": None,             # 作者 / 出版社 / rights agent / ...
-        "topic": None,                 # cooperation / royalty / listing / copyright / cannot_list / ...
+        "role_hint": None,          # 確認後的身份
+        "last_denied_role": None,   # 最近被否定的身份
+        "topic": None,
     }
 
 # =========================================================
 # 工具函式
 # =========================================================
 def detect_language(text: str) -> str:
-    """很簡單的語言偵測：若英文字母比例高，視為英文；否則視為中文。"""
     if not text:
         return "zh"
 
@@ -171,9 +168,6 @@ def detect_language(text: str) -> str:
 
 
 def extract_isbn(text: str) -> Optional[str]:
-    """
-    抓 10 或 13 碼 ISBN，允許有破折號。
-    """
     candidates = re.findall(r"[\d\-]{10,17}", text)
     for item in candidates:
         pure = item.replace("-", "")
@@ -183,53 +177,19 @@ def extract_isbn(text: str) -> Optional[str]:
 
 
 def extract_contract_number(text: str) -> Optional[str]:
-    """
-    非常保守的合約編號抓法。
-    你若有固定格式，可改成更準確的 regex。
-    """
     text_up = text.upper()
 
-    # 若明確寫出「合約編號」
     m = re.search(r"(合約編號|contract\s*number|contract)\s*[:：]?\s*([A-Z0-9\-_]{4,20})", text_up)
     if m:
         return m.group(2)
 
-    # 一般英數混合編號
     candidates = re.findall(r"\b[A-Z][A-Z0-9\-_]{3,19}\b", text_up)
     if candidates:
         return candidates[0]
     return None
 
 
-def extract_role_hint(text: str, lang: str) -> Optional[str]:
-    text_lower = text.lower()
-    if lang == "zh":
-        if "作者" in text:
-            return "作者"
-        if "出版社" in text:
-            return "出版社"
-        if "版權代理" in text:
-            return "版權代理"
-        if "總經銷" in text or "經銷" in text:
-            return "經銷夥伴"
-    else:
-        if "author" in text_lower:
-            return "author"
-        if "publisher" in text_lower:
-            return "publisher"
-        if "rights agent" in text_lower or "agent" in text_lower:
-            return "rights agent"
-        if "distributor" in text_lower or "distribution partner" in text_lower:
-            return "distribution partner"
-    return None
-
-
 def extract_book_name(text: str, lang: str) -> Optional[str]:
-    """
-    簡單抓法：
-    中文：書名是XXX / 書名：XXX
-    英文：title is XXX / title: XXX
-    """
     if lang == "zh":
         m = re.search(r"書名\s*[是為:：]?\s*(.+)", text)
     else:
@@ -244,10 +204,122 @@ def extract_book_name(text: str, lang: str) -> Optional[str]:
     return None
 
 
+def extract_role_hint(text: str, lang: str):
+    """
+    回傳格式：
+    {
+        "role": "作者" / "出版社" / ...
+        "polarity": "positive" / "negative"
+    }
+    """
+    text_lower = text.lower().strip()
+
+    if lang == "zh":
+        role_patterns = {
+            "作者": {
+                "negative": [
+                    "我不是作者", "並非作者", "不是作者", "我非作者", "我並不是作者"
+                ],
+                "positive": [
+                    "我是作者", "本人是作者", "我是一位作者", "作者是我"
+                ],
+            },
+            "出版社": {
+                "negative": [
+                    "我不是出版社", "我們不是出版社", "並非出版社", "不是出版社", "我並不是出版社"
+                ],
+                "positive": [
+                    "我是出版社", "我們是出版社", "本公司是出版社"
+                ],
+            },
+            "版權代理": {
+                "negative": [
+                    "我不是版權代理", "我們不是版權代理", "並非版權代理", "不是版權代理"
+                ],
+                "positive": [
+                    "我是版權代理", "我們是版權代理", "我是代理人"
+                ],
+            },
+            "經銷夥伴": {
+                "negative": [
+                    "我不是經銷", "我們不是經銷", "並非經銷", "不是經銷"
+                ],
+                "positive": [
+                    "我是經銷", "我們是經銷", "我們是總經銷", "我是經銷夥伴"
+                ],
+            },
+            "內容提供方": {
+                "negative": [
+                    "我不是內容提供方", "並非內容提供方", "不是內容提供方"
+                ],
+                "positive": [
+                    "我是內容提供方", "我們是內容提供方"
+                ],
+            },
+        }
+
+        for role, patterns in role_patterns.items():
+            if any(p in text for p in patterns["negative"]):
+                return {"role": role, "polarity": "negative"}
+            if any(p in text for p in patterns["positive"]):
+                return {"role": role, "polarity": "positive"}
+
+    else:
+        role_patterns = {
+            "author": {
+                "negative": [
+                    "i am not an author", "i'm not an author", "not an author"
+                ],
+                "positive": [
+                    "i am an author", "i'm an author", "i am author"
+                ],
+            },
+            "publisher": {
+                "negative": [
+                    "i am not a publisher", "we are not a publisher", "not a publisher"
+                ],
+                "positive": [
+                    "i am a publisher", "we are a publisher", "we are publishers"
+                ],
+            },
+            "rights agent": {
+                "negative": [
+                    "i am not a rights agent", "not a rights agent"
+                ],
+                "positive": [
+                    "i am a rights agent", "we are a rights agent"
+                ],
+            },
+            "distribution partner": {
+                "negative": [
+                    "not a distributor", "i am not a distributor"
+                ],
+                "positive": [
+                    "we are a distributor", "i am a distributor", "distribution partner"
+                ],
+            },
+            "content provider": {
+                "negative": [
+                    "not a content provider", "i am not a content provider"
+                ],
+                "positive": [
+                    "i am a content provider", "we are a content provider"
+                ],
+            },
+        }
+
+        for role, patterns in role_patterns.items():
+            if any(p in text_lower for p in patterns["negative"]):
+                return {"role": role, "polarity": "negative"}
+            if any(p in text_lower for p in patterns["positive"]):
+                return {"role": role, "polarity": "positive"}
+
+    return None
+
+
 def detect_topic(text: str, lang: str) -> Optional[str]:
     t = text.lower()
 
-    # 雙語 topic 偵測
     topic_keywords = {
         "cooperation": [
             "合作", "配合", "如何合作", "怎麼合作", "洽談",
@@ -307,13 +379,8 @@ def update_context(user_input: str) -> None:
         st.session_state.context["isbn"] = isbn
 
     contract_number = extract_contract_number(user_input)
-    # 避免 ISBN 被同時判成 contract number
     if contract_number and contract_number != isbn:
         st.session_state.context["contract_number"] = contract_number
-
-    role_hint = extract_role_hint(user_input, lang)
-    if role_hint:
-        st.session_state.context["role_hint"] = role_hint
 
     book_name = extract_book_name(user_input, lang)
     if book_name:
@@ -323,23 +390,56 @@ def update_context(user_input: str) -> None:
     if topic:
         st.session_state.context["topic"] = topic
 
+    role_info = extract_role_hint(user_input, lang)
+    if role_info:
+        if role_info["polarity"] == "positive":
+            st.session_state.context["role_hint"] = role_info["role"]
+            st.session_state.context["last_denied_role"] = None
+        elif role_info["polarity"] == "negative":
+            if st.session_state.context.get("role_hint") == role_info["role"]:
+                st.session_state.context["role_hint"] = None
+            st.session_state.context["last_denied_role"] = role_info["role"]
+
 
 def format_target(ctx: Dict) -> str:
     return ctx.get("book_name") or ctx.get("isbn") or ctx.get("contract_number") or "目前這本書"
 
 
+def get_suggested_questions(lang: str) -> List[str]:
+    return QUESTION_TEMPLATES_EN if lang == "en" else QUESTION_TEMPLATES_ZH
+
+
+# =========================================================
+# 回覆函式
+# =========================================================
 def reply_cooperation(ctx: Dict, lang: str) -> str:
     role_hint = ctx.get("role_hint")
-    if lang == "en":
-        base = FAQ_EN["cooperation"]
-        if role_hint:
-            return f"I understand that you are likely a {role_hint}.\n\n{base}"
-        return base
+    denied_role = ctx.get("last_denied_role")
 
-    base = FAQ_ZH["cooperation"]
+    if lang == "en":
+        if role_hint:
+            return f"I understand that your current role may be \"{role_hint}\".\n\n{FAQ_EN['cooperation']}"
+        if denied_role:
+            return (
+                f"Understood. You are not a \"{denied_role}\".\n\n"
+                "If you would like to discuss cooperation, you may let me know whether you are an author, "
+                "publisher, rights agent, or another type of content provider. I will then adjust the explanation accordingly.\n\n"
+                f"{FAQ_EN['cooperation']}"
+            )
+        return FAQ_EN["cooperation"]
+
     if role_hint:
-        return f"我理解您目前的身份可能是「{role_hint}」。\n\n{base}"
-    return base
+        return f"我理解您目前的身份可能是「{role_hint}」。\n\n{FAQ_ZH['cooperation']}"
+
+    if denied_role:
+        return (
+            f"了解，您目前不是「{denied_role}」。\n\n"
+            "若您希望洽談合作，也可以告訴我您是作者、出版社、版權代理，或其他內容提供方，"
+            "我再依身份提供較合適的說明。\n\n"
+            f"{FAQ_ZH['cooperation']}"
+        )
+
+    return FAQ_ZH["cooperation"]
 
 
 def reply_royalty(ctx: Dict, lang: str) -> str:
@@ -453,7 +553,6 @@ def reply_identifier_only(ctx: Dict, lang: str, user_input: str) -> Optional[str
     isbn = extract_isbn(stripped)
     contract_number = extract_contract_number(stripped)
 
-    # 若使用者幾乎只輸入一個 ISBN / 合約編號，回覆接續提示
     if isbn and len(stripped.replace("-", "")) <= 20:
         if lang == "en":
             return (
@@ -504,15 +603,29 @@ def reply_followup_without_topic(ctx: Dict, lang: str) -> Optional[str]:
     )
 
 
-def get_suggested_questions(lang: str) -> List[str]:
-    return QUESTION_TEMPLATES_EN if lang == "en" else QUESTION_TEMPLATES_ZH
-
-
 def generate_reply(user_input: str) -> str:
-    update_context(user_input)
+    lang = detect_language(user_input)
+    role_info_before_update = extract_role_hint(user_input, lang)
 
+    update_context(user_input)
     ctx = st.session_state.context
     lang = ctx["language"]
+
+    # 優先處理「否定身份」的糾正
+    if role_info_before_update and role_info_before_update["polarity"] == "negative":
+        denied_role = role_info_before_update["role"]
+        if lang == "en":
+            return (
+                f"Got it — you are not a \"{denied_role}\".\n\n"
+                "Thanks for correcting me. You can tell me your actual role, "
+                "such as author, publisher, rights agent, or content provider, "
+                "and I will adjust the explanation accordingly."
+            )
+        return (
+            f"了解，您不是「{denied_role}」。\n\n"
+            "謝謝您的更正。您也可以直接告訴我您的身份，例如出版社、版權代理、內容提供方等，"
+            "我會依照您的身份調整說明內容。"
+        )
 
     # 問候
     if lang == "en":
@@ -524,7 +637,7 @@ def generate_reply(user_input: str) -> str:
     else:
         if any(w in user_input for w in ["你好", "您好", "哈囉", "嗨"]):
             return (
-                "您好，我是圖書經銷／上架／權利金／版權助手。\n\n"
+                "您好，我是圖書經銷／上架／權利金／版權小助手。\n\n"
                 "您可以直接問我：合作方式、上架流程、權利金、授權、版權，或無法提報的原因。"
             )
 
@@ -558,7 +671,6 @@ def generate_reply(user_input: str) -> str:
     if topic == "contact":
         return reply_contact(ctx, lang)
 
-    # fallback
     suggestions = get_suggested_questions(lang)
     if lang == "en":
         return (
@@ -591,6 +703,7 @@ def clear_chat() -> None:
         "book_name": None,
         "publisher": None,
         "role_hint": None,
+        "last_denied_role": None,
         "topic": None,
     }
 
@@ -618,10 +731,8 @@ with st.sidebar:
 # =========================================================
 # Main UI
 # =========================================================
-st.title("📚 圖書經銷客服助手")
-st.caption(
-    "支援：圖書經銷、平台上架、權利金、版權 / 授權、無法提報原因、合作洽詢、基本中英雙語問答。"
-)
+st.title("📚 Hi～我是你的 圖書經銷客服 自動回覆機器人🤖")
+st.caption("支援：圖書經銷、平台上架、權利金、版權 / 授權、無法提報原因、合作洽詢、基本中英雙語問答。")
 
 # 聊天紀錄
 for msg in st.session_state.messages:
@@ -629,21 +740,24 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"], avatar=avatar):
         st.markdown(msg["content"])
 
-# 快速問題按鈕
+# 快速提問
 st.markdown("### 快速提問")
 col1, col2, col3 = st.columns(3)
+
 with col1:
     if st.button("如何跟你們合作？", use_container_width=True):
         quick_prompt = "如何跟你們合作？"
         st.session_state.messages.append({"role": "user", "content": quick_prompt})
         st.session_state.messages.append({"role": "assistant", "content": generate_reply(quick_prompt)})
         st.rerun()
+
 with col2:
     if st.button("權利金多久結算？", use_container_width=True):
         quick_prompt = "我是出版社，請問銷售後多久可以結算權利金？"
         st.session_state.messages.append({"role": "user", "content": quick_prompt})
         st.session_state.messages.append({"role": "assistant", "content": generate_reply(quick_prompt)})
         st.rerun()
+
 with col3:
     if st.button("這本書為什麼不能上架？", use_container_width=True):
         quick_prompt = "這本書為什麼不能上架？"
@@ -652,7 +766,9 @@ with col3:
         st.rerun()
 
 # Chat input
-prompt = st.chat_input("請輸入訊息，例如：我是出版社，想合作上架電子書，流程是什麼？ / I am a publisher. How can I work with you?")
+prompt = st.chat_input(
+    "請輸入訊息，例如：我不是作者，我是出版社，請問怎麼合作？ / I am a publisher. How can I work with you?"
+)
 
 if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
