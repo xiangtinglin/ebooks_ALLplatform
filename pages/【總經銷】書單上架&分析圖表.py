@@ -165,6 +165,7 @@ passwords_and_names = {
 st.title("【總經銷】書單上架&分析")
 
 user_input = st.text_input("請輸入密碼:", type="password")
+st.print("Sorry～暫停服務！")
 
 if user_input:
     if user_input in passwords_and_names:
