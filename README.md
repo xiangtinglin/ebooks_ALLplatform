@@ -15,8 +15,8 @@
 
 ## 🌐 Demo & GitHub
 - 🔗 Demo Video: https://sites.google.com/view/myweb-ersha/project/網站系統-web-system
-- 🔗 Demo: https://ebooks-allplatform.streamlit.app/
-- 🔗 GitHub: https://github.com/xiangtinglin/ebooks_ALLplatform （測試密碼：1234 / 6197）
+- 🔗 Demo: https://ebooks-allplatform.streamlit.app/ （測試密碼：1234 / 6197）
+- 🔗 GitHub: https://github.com/xiangtinglin/ebooks_ALLplatform 
 
 ---
 
